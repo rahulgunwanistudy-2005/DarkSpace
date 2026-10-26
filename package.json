@@ -1,0 +1,17 @@
+{
+  "name": "darkspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.19.0" },
+  "workspaces": ["packages/core"],
+  "scripts": {
+    "test": "node --test packages/core/tests/*.test.ts",
+    "check:core": "tsc --project packages/core/tsconfig.json",
+    "fixture": "node packages/core/src/fixture.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "7.0.2"
+  }
+}

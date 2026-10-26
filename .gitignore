@@ -1,0 +1,16 @@
+/devpost/learner-profile.md
+.env
+.env.*
+!.env.example
+/kit/
+node_modules/
+.cache/
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+web/.svelte-kit/
+web/build/
+packages/core/dist/
+/darkspace-output/

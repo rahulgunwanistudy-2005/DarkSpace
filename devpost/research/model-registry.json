@@ -1,0 +1,152 @@
+[
+  {
+    "tag": "llama3.1:8b-instruct-q4_K_M",
+    "url": "https://registry.ollama.ai/v2/library/llama3.1/manifests/8b-instruct-q4_K_M",
+    "manifest_digest": "sha256:46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+    "header_digest": null,
+    "layers": [
+      {
+        "mediaType": "application/vnd.ollama.image.model",
+        "digest": "sha256:667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29",
+        "size": 4920738944
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.template",
+        "digest": "sha256:948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85",
+        "size": 1481
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.license",
+        "digest": "sha256:0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177",
+        "size": 12320
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.params",
+        "digest": "sha256:56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb",
+        "size": 96
+      }
+    ]
+  },
+  {
+    "tag": "qwen2.5:7b-instruct-q4_K_M",
+    "url": "https://registry.ollama.ai/v2/library/qwen2.5/manifests/7b-instruct-q4_K_M",
+    "manifest_digest": "sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "header_digest": null,
+    "layers": [
+      {
+        "mediaType": "application/vnd.ollama.image.model",
+        "digest": "sha256:2bada8a7450677000f678be90653b85d364de7db25eb5ea54136ada5f3933730",
+        "size": 4683073952
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.system",
+        "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+        "size": 68
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.template",
+        "digest": "sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175",
+        "size": 1482
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.license",
+        "digest": "sha256:832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+        "size": 11343
+      }
+    ]
+  },
+  {
+    "tag": "mistral:7b-instruct-v0.3-q4_K_M",
+    "url": "https://registry.ollama.ai/v2/library/mistral/manifests/7b-instruct-v0.3-q4_K_M",
+    "manifest_digest": "sha256:6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+    "header_digest": null,
+    "layers": [
+      {
+        "mediaType": "application/vnd.ollama.image.model",
+        "digest": "sha256:f5074b1221da0f5a2910d33b642efa5b9eb58cfdddca1c79e16d7ad28aa2b31f",
+        "size": 4372811712
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.license",
+        "digest": "sha256:43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+        "size": 11356
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.template",
+        "digest": "sha256:1ff5b64b61b9a63146475a24f70d3ca2fd6fdeec44247987163479968896fc0b",
+        "size": 799
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.params",
+        "digest": "sha256:ed11eda7790d05b49395598a42b155812b17e263214292f7b87d15e14003d337",
+        "size": 30
+      }
+    ]
+  },
+  {
+    "tag": "gemma3:4b-it-q4_K_M",
+    "url": "https://registry.ollama.ai/v2/library/gemma3/manifests/4b-it-q4_K_M",
+    "manifest_digest": "sha256:68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7",
+    "header_digest": null,
+    "layers": [
+      {
+        "mediaType": "application/vnd.ollama.image.model",
+        "digest": "sha256:f06e91e18fc74295d0c781bf91622508c75655e2c18ed869d52447ffe1e667e1",
+        "size": 2499012288,
+        "from": "dhiltgen/gemma3:4b-it-q4_K_M-llamacpp"
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.projector",
+        "digest": "sha256:7a50f9607a47389c028f2598c1f2d3e23b61913b4ce3c4a9eaaca62de1b9e098",
+        "size": 851251104,
+        "from": "dhiltgen/gemma3:4b-it-q4_K_M-llamacpp"
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.template",
+        "digest": "sha256:e0a42594d802e5d31cdc786deb4823edb8adff66094d49de8fffe976d753e348",
+        "size": 358,
+        "from": "dhiltgen/gemma3:4b-it-q4_K_M-llamacpp"
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.license",
+        "digest": "sha256:dd084c7d92a3c1c14cc09ae77153b903fd2024b64a100a0cc8ec9316063d2dbc",
+        "size": 8432,
+        "from": "dhiltgen/gemma3:4b-it-q4_K_M-llamacpp"
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.params",
+        "digest": "sha256:3116c52250752e00dd06b16382e952bd33c34fd79fc4fe3a5d2c77cf7de1b14b",
+        "size": 77,
+        "from": "dhiltgen/gemma3:4b-it-q4_K_M-llamacpp"
+      }
+    ]
+  },
+  {
+    "tag": "qwen2.5:14b-instruct-q4_K_M",
+    "url": "https://registry.ollama.ai/v2/library/qwen2.5/manifests/14b-instruct-q4_K_M",
+    "manifest_digest": "sha256:7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+    "header_digest": null,
+    "layers": [
+      {
+        "mediaType": "application/vnd.ollama.image.model",
+        "digest": "sha256:2049f5674b1e92b4464e5729975c9689fcfbf0b0e4443ccf10b5339f370f9a54",
+        "size": 8988110688
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.system",
+        "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+        "size": 68
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.template",
+        "digest": "sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175",
+        "size": 1482
+      },
+      {
+        "mediaType": "application/vnd.ollama.image.license",
+        "digest": "sha256:832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+        "size": 11343
+      }
+    ]
+  }
+]

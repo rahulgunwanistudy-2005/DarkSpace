@@ -1,0 +1,116 @@
+{
+  "measured_at": "2026-10-26T08:01:36.544Z",
+  "host": "Apple M1 Mac, 8 GB; Node.js native CPU, NOT a browser or phone benchmark",
+  "caveats": [
+    "Engineering probe of eight agent-authored synthetic sentences, not human labels or a backtest.",
+    "Browser timings are desktop in-app-browser over localhost with already downloaded assets; not phone or real-internet download performance.",
+    "BGE-small reference uses shared WASM; other references use native ONNX, so differences have different baselines."
+  ],
+  "trials": [
+    {
+      "id": "Xenova/all-MiniLM-L6-v2",
+      "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+      "dtype": "q8",
+      "pooling": "mean",
+      "normalize": true,
+      "dimensions": 384,
+      "downloaded_cache_bytes": 23685047,
+      "metadata_download_and_init_ms": 5658.326542,
+      "first_inference_ms": 16.007708999999522,
+      "warm_inferences": 8,
+      "warm_p50_ms": 4.329250000000684,
+      "warm_p95_ms": 4.7876249999999345,
+      "repeat_max_abs_difference": 0,
+      "synthetic_pair_top1_hits": 8,
+      "synthetic_pair_count": 8,
+      "browser": {
+        "id": "Xenova/all-MiniLM-L6-v2",
+        "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+        "backend": "browser WASM, one thread",
+        "pooling": "mean",
+        "dimensions": 384,
+        "local_asset_load_and_init_ms": 1183.2999999970198,
+        "inferences": 8,
+        "p50_ms": 36.100000001490116,
+        "p95_ms": 133.79999999701977,
+        "max_abs_difference_from_reference": 0.01032952405512333
+      }
+    },
+    {
+      "id": "Xenova/bge-small-en-v1.5",
+      "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+      "dtype": "q8",
+      "pooling": "cls",
+      "normalize": true,
+      "dimensions": 384,
+      "downloaded_cache_bytes": 34726871,
+      "metadata_download_and_init_ms": 4456.15275,
+      "first_inference_ms": 7.747499999999491,
+      "warm_inferences": 8,
+      "warm_p50_ms": 6.688625000000684,
+      "warm_p95_ms": 6.926583000000392,
+      "repeat_max_abs_difference": 0,
+      "synthetic_pair_top1_hits": 8,
+      "synthetic_pair_count": 8,
+      "browser": {
+        "id": "Xenova/bge-small-en-v1.5",
+        "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+        "backend": "browser WASM, one thread",
+        "pooling": "cls",
+        "dimensions": 384,
+        "local_asset_load_and_init_ms": 484.30000000447035,
+        "inferences": 8,
+        "p50_ms": 78.10000000149012,
+        "p95_ms": 90.69999999552965,
+        "max_abs_difference_from_reference": 1.1920928955078125e-07
+      }
+    },
+    {
+      "id": "Xenova/bge-base-en-v1.5",
+      "revision": "4d6cd88e18e51a5e020c2c305726d76ada9c03cf",
+      "dtype": "q8",
+      "pooling": "cls",
+      "normalize": true,
+      "dimensions": 768,
+      "downloaded_cache_bytes": 110795816,
+      "metadata_download_and_init_ms": 5357.142916000001,
+      "first_inference_ms": 24.66320900000028,
+      "warm_inferences": 8,
+      "warm_p50_ms": 20.561416000000463,
+      "warm_p95_ms": 23.350208000001658,
+      "repeat_max_abs_difference": 0,
+      "synthetic_pair_top1_hits": 8,
+      "synthetic_pair_count": 8,
+      "browser": {
+        "id": "Xenova/bge-base-en-v1.5",
+        "revision": "4d6cd88e18e51a5e020c2c305726d76ada9c03cf",
+        "backend": "browser WASM, one thread",
+        "pooling": "cls",
+        "dimensions": 768,
+        "local_asset_load_and_init_ms": 1009.3999999985099,
+        "inferences": 8,
+        "p50_ms": 208.39999999850988,
+        "p95_ms": 362.8999999985099,
+        "max_abs_difference_from_reference": 0.013702880591154099
+      }
+    }
+  ],
+  "selected_asset_hashes": {
+    "config.json": {
+      "sha256": "fa73f90bf92c8cace1fbcb709626306f2bdbc9ea3e5b5f94b440df9b6aa56350",
+      "bytes": 683
+    },
+    "onnx/model_quantized.onnx": {
+      "sha256": "6c9c6101a956d62dfb5e7190c538226c0c5bb9cb27b651234b6df063ee7dbfe4",
+      "bytes": 34014426
+    },
+    "tokenizer.json": {
+      "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "bytes": 711396
+    },
+    "tokenizer_config.json": {
+      "sha256": "9261e7d79b44c8195c1cada2b453e55b00aeb81e907a6664974b4d7776172ab3",
+      "bytes": 366
+    }
+  }
+}
