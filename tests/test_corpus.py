@@ -134,3 +134,15 @@ def test_local_fingerprints_cover_partial_snapshots_without_copying_text(tmp_pat
     assert phrase not in raw
     known = tuple(Fingerprint(**row) for row in json.loads(raw))
     assert text_issue(phrase, known) is not None
+
+
+def test_pacer_respects_a_previous_process_request_and_the_three_second_floor() -> None:
+    now = [11.0]
+    recorded = []
+
+    def sleep(seconds: float) -> None:
+        now[0] += seconds
+
+    pacer = Pacer(lambda: now[0], sleep, interval=0.1, previous=10.0, record=recorded.append)
+    pacer.wait()
+    assert now[0] == 13.0 and recorded == [13.0]

@@ -109,7 +109,7 @@ This user-authorized migration is the active build order before resuming the rem
   Learner check: Every public card says sample data; the local recording build identifies its different provenance.
   Commit: `feat: separate fixture demo and local recording bundles`
 
-- [ ] **8. Fetch the permitted corpus locally with provenance**
+- [x] **8. Fetch the permitted corpus locally with provenance**
   Becomes usable: `darkspace corpus fetch` collects the permitted gallery locally, respecting robots and the minimum request interval.
   Why now: A safe local destination and export boundary exist first.
   PRD ref: `prd.md > Organizer Ruling — Data Boundary Revision`.
@@ -132,3 +132,5 @@ This user-authorized migration is the active build order before resuming the rem
 - Migration slice 6 verified and committed as `254ccdf`: 2 safety tests passed, strict types/lint passed, 64 tracked/staged files had zero violations, and the sanitized full-object history scan found zero violations across 125 blobs. The pre-commit hook is active. Original corpus is absent from reachable history and its former blob is no longer present.
 
 - Migration slice 7 verified and committed as `2cca881`: 8 made-up projects, 16 forecasts and 16 controls; fixture coverage/control both 6/8, lift 0, CI [-50, 50] retained. Both production builds passed. 14 Node tests, 12 Python tests, strict engine types and Svelte checks passed. Browser inspection confirmed all eight sample card labels and private placement. The companion workflow/output protection remains; only its source resolution follows the local bundle boundary.
+
+- Migration slice 8 verified and committed as `575cc98`: 8 controlled-response collector tests passed, full Python suite reached 21 passing tests, lint and strict collector/CLI checks passed. CLI help and explicit export commands ran. No live gallery request was made. The original 384-attempt artifact replay stayed byte-identical with zero calls. Cached and partial snapshots feed only local hash fingerprints; event completeness/evaluation eligibility remain unverified.
