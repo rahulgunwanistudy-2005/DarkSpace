@@ -1,54 +1,94 @@
 # Dark Space
 
-See where sampled models converge before committing to a hackathon idea. Place your own sentence privately, examine shared defaults, and carry your own answers into scoping.
+Place an idea, examine shared defaults, answer in your own words, and carry one hand-off into scoping.
 
-## Current status
+## Public demo: sample data only
 
-The technical approach is selected. The placement/interview core and shared on-device embedding path are implemented, and the frozen public sampler is verified. Actual current-event sampling is running on the authorized Colab GPU. The web app and validated historical backtest are not complete. No entrant-prediction claim has been demonstrated. Synthetic fixtures below verify arithmetic and state handling only.
+The committed/deployed demo uses a small gallery and forecasts made up from scratch. Every card says **sample data**. These fixtures demonstrate the pipeline and interaction; they do not validate prediction of real entrants.
 
-## Run the verified core
-
-Requires Node 24.19 or later.
+Requires Node 24.19 or later:
 
 ```sh
 npm ci
-npm test
-npm run check:core
-npm run fixture
+npm run prepare:web
+npm run build
+npm run preview:production
 ```
 
-The last command writes `darkspace-output/FIXTURE-HANDOFF.md`, clearly marked synthetic. It contains declared fixture sentences, not your personal idea or any model forecast. Personal outputs are excluded from Git.
+Open **http://127.0.0.1:4173/**. No account, API key or personal inference server is needed. The local model/runtime assets total about 46 MB and come from the same site. Your idea and answers remain on your device.
 
-Verify the real private embedding path separately:
+The public build refuses a local recording bundle. The public browser build also rejects a local bundle at runtime.
 
-```sh
-npm run assets:placement
-npm run verify:embedding
-```
+## Reproduce the fixture result
 
-The first command downloads approximately 46 MB of pinned model/runtime assets if they are absent. Assets are checked by hash. The verification uses a declared synthetic sentence; it proves engineering behavior, not semantic accuracy. The installed tokenizer uses a patched image dependency even though this application processes text only.
-
-## Public sampling
+Requires Python 3.12 and uv:
 
 ```sh
 uv sync --locked --python 3.12
-uv run pytest -q
-uv run ruff check darkspace tests scripts
-uv run mypy --strict darkspace
-uv run darkspace sample --config configs/current-event.json
+uv run darkspace fixtures --config configs/fixture.yaml
+node scripts/export-bundle.mjs fixture data/runs/fixture-d14769c6fc4b987ec90459e808ac6c0bb3539e68e933019bc007fab5395e0c9b/bundle.json
 ```
 
-Sampling needs the four pinned models in a loopback Ollama runtime. `configs/freeze-current.json` checks exact public prompts, configuration and source inputs before any call. Public setup scripts are in `scripts/colab_bootstrap.py` and `scripts/colab_pull.py`; use the authorized notebook for public data only. The browser and terminal private path never send personal inputs there. Cache-only reruns make zero new model calls. The sampler counts invalid output, repair attempts and provider failures instead of silently replacing draws.
+`configs/fixture.yaml` uses YAML 1.2's JSON-compatible syntax. Inputs are in `data/fixtures/`; the recorded run and manifests are under `data/runs/fixture-…/`. Shared-WASM vectors are precomputed for the made-up forecast sentences; `node scripts/embed-fixtures.mjs` regenerates them.
 
-## Approach and evidence
+Actual fixture arithmetic: **6/8 forecast matches, 6/8 control matches, zero lift**. The paired bootstrap interval is **−50 to +50 percentage points**, using seed 42 and 10,000 resamples. Matching compares authored audience/problem/mechanism tags and is used only for fixtures. This is not an LLM-judge result. The zero gap is not tuned away.
 
-The planned static app reads precomputed public forecast/evaluation artifacts. Personal placement runs on-device; browser and terminal share one WASM embedding/placement contract. No personal inference server, accounts or analytics.
+## Real data and local recording
 
-- [Approved scope](devpost/scope.md)
-- [Approved product behavior](devpost/prd.md)
-- [Selected technical specification](devpost/spec.md)
-- [Build progress](devpost/checklist.md)
-- [Architecture comparison and measured probe](devpost/research/architecture-decision.md)
-- [Historical dataset access and exposure ledger](devpost/research/dataset-screening.md)
+The real corpus is **not in the repository**. Collected titles/taglines, entrant URLs, caches, per-project matches, raw run artifacts, screenshots and recording bundles belong in ignored `.darkspace-local/` paths. Only text-free aggregate backtest results may be committed.
 
-The model probe measured engineering feasibility on eight synthetic desktop sentences. It does not establish semantic placement accuracy, phone performance, judge reliability or historical coverage. Those have separate gates in the spec. No Devpost gallery is collected without permission, and the current event's gallery is never collected.
+`data/backtest-summary.json` currently says **not run**, with null metrics. No validated real coverage, control, lift, confidence interval or judge-reliability result exists in this checkout. Permission to collect data does not validate an evaluation. Fixture results never replace real results.
+
+The earlier actual model forecast was preserved locally: 384 attempts, 383 valid ideas, one invalid result, no provider or embedding failures. Its original bytes, frozen protocol and offline replay receipt remain local. Those counts are sampling results, not entrant coverage.
+
+Explicit export/build commands for a locally generated forecast:
+
+```sh
+node scripts/export-bundle.mjs local .darkspace-local/runs/RUN_ID/forecast.json
+npm run build:local
+npm run preview:local
+```
+
+Open **http://127.0.0.1:4174/** for recording. Output is `.darkspace-local/site/`, which is ignored and must never be deployed. Local gallery cards require anonymised display summaries; the exporter does not copy original titles/taglines into display cards. A local forecast without a validated backtest keeps that backtest pending.
+
+The organizer has not approved public deployment of gallery-derived summaries. Until that changes, the public demo remains fixtures only.
+
+## Companion
+
+The organizer approved the installable companion. Its one-question-at-a-time interview and protected hand-off are retained. The loader prefers the locally installed real forecast, so the public fixture is not passed off as a real crowd forecast.
+
+Run it yourself in a local interactive terminal:
+
+```sh
+npm run assets:placement
+node packages/core/src/companion.ts /absolute/path/to/your-project
+```
+
+It reads the learner profile locally and writes only `darkspace-output/HANDOFF.md`, refusing protected paths, symlinks and overwrite. It does not write in `devpost/` or edit Skill Pack files. Bring the hand-off into your own `2-scope` brain dump.
+
+## Safety and checks
+
+```sh
+git config core.hooksPath .githooks
+python3 scripts/check-data-safety.py --tracked --staged
+python3 scripts/check-data-safety.py --history
+npm test
+npm run check:core
+npm run check:web
+uv run pytest -q
+uv run ruff check darkspace tests scripts
+```
+
+The hook blocks real-data paths, SQLite files, archives, recordings, unreviewed media, entrant project URLs and known gallery wording fingerprints. Fingerprints store hashes, not wording. Repeat the full history scan immediately before the first push. No push was performed during the cleanup.
+
+The original real development corpus was removed from history after the user was notified. [The audit](devpost/research/data-boundary-audit.md) records exact paths and commit mapping without reproducing entrant wording.
+
+## Planning and provenance
+
+- [Scope](devpost/scope.md)
+- [Product behavior](devpost/prd.md)
+- [Technical specification](devpost/spec.md)
+- [Verified build slices](devpost/checklist.md)
+- [Offline app map](devpost/app-map.html)
+
+The actual model-generation path uses four pinned families, recorded in `configs/current-event.json`. Personal placement shares one BGE-small q8 WASM contract across browser and terminal. No current Build With AI: Basics gallery is collected, and no fixture or retrospective generation is presented as a historically timestamped forecast.

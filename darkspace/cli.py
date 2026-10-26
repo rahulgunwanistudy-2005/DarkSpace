@@ -1,4 +1,5 @@
 import argparse
+import sys
 from collections.abc import Callable
 from pathlib import Path
 
@@ -43,6 +44,11 @@ def sample_run(
 
 
 def main() -> None:
+    if sys.argv[1:2] == ["fixtures"]:
+        from darkspace.fixtures import main as fixtures_main
+
+        fixtures_main(sys.argv[2:])
+        return
     parser = argparse.ArgumentParser(description="Public-data-only Dark Space pipeline")
     commands = parser.add_subparsers(dest="command", required=True)
     sample = commands.add_parser("sample")

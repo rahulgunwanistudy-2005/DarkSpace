@@ -11,6 +11,10 @@ for (const [name, expected] of Object.entries(manifest.assets)) {
   let bytes;
   try { bytes = await readFile(target); } catch (error) { if (error.code !== 'ENOENT') throw error; }
   if (!bytes) {
+    try { bytes = await readFile(new URL(`.cache/placement-assets/${name}`, root)); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+  }
+  if (!bytes) {
     const response = await fetch(`https://huggingface.co/${manifest.model}/resolve/${manifest.revision}/${name}`);
     if (!response.ok) throw new Error(`Could not download public asset ${name}: HTTP ${response.status}`);
     bytes = Buffer.from(await response.arrayBuffer());

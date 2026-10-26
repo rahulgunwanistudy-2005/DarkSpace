@@ -1,0 +1,12 @@
+import {readFile} from 'node:fs/promises';
+import {spawnSync} from 'node:child_process';
+if(process.env.VITE_DARKSPACE_BUNDLE==='local')throw new Error('Public build refuses local recording mode. Use build:local.');
+const safety=spawnSync('python3',['scripts/check-data-safety.py','--public-bundle'],{stdio:'inherit'});
+if(safety.status!==0)process.exit(safety.status??1);
+const bundle=JSON.parse(await readFile('web/static/data/current.json','utf8'));
+if(bundle.bundleKind!=='fixture'||bundle.dataLabel!=='sample data')throw new Error('The public build requires the fixture export.');
+const result=spawnSync('npm',['run','build','--workspace','web'],{stdio:'inherit',env:{...process.env,VITE_DARKSPACE_BUNDLE:'fixture'}});
+if(result.status!==0)process.exit(result.status??1);
+const installed=JSON.parse(await readFile('web/build/data/current.json','utf8'));
+if(installed.bundleKind!=='fixture'||installed.dataLabel!=='sample data')throw new Error('Production output contains a non-fixture bundle.');
+console.log('PUBLIC BUILD VERIFIED: sample data only.');

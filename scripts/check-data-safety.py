@@ -19,6 +19,7 @@ def main() -> None:
     parser.add_argument("--staged", action="store_true")
     parser.add_argument("--tracked", action="store_true")
     parser.add_argument("--history", action="store_true")
+    parser.add_argument("--public-bundle", action="store_true")
     args = parser.parse_args()
     policy = json.loads(Path("configs/data-safety.json").read_text())
     known = tuple(Fingerprint(**row) for row in policy["gallery_fingerprints"])
@@ -32,6 +33,12 @@ def main() -> None:
         )
     problems = []
     checked = 0
+    if args.public_bundle:
+        path = "web/static/data/current.json"
+        issue = file_issue(path, Path(path).read_bytes(), known, policy["reviewed_media"])
+        checked += 1
+        if issue:
+            problems.append({"path": path, "reason": issue})
     for path in sorted(paths - {""}):
         try:
             payload = git("show", ":" + path)
@@ -41,6 +48,10 @@ def main() -> None:
         issue = file_issue(path, payload, known, policy["reviewed_media"])
         if issue:
             problems.append({"path": path, "reason": issue})
+        if args.tracked and Path(path).is_file():
+            issue = file_issue(path, Path(path).read_bytes(), known, policy["reviewed_media"])
+            if issue:
+                problems.append({"path": path, "reason": "working tree: " + issue})
     commits = []
     blobs = 0
     if args.history:

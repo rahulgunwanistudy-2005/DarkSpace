@@ -1,4 +1,4 @@
-export type EvidenceKind = 'model-forecast' | 'synthetic-fixture';
+export type EvidenceKind = 'model-forecast' | 'synthetic-fixture' | 'sample-data';
 
 export interface VectorContract {
   id: string;

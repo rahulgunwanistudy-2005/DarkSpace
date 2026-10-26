@@ -34,10 +34,16 @@ export function saveIdeaDraft(session: Interview, idea: string): Interview {
 
 export function recordPlacement(session: Interview, placement: Placement): Interview {
   if (session.phase !== 'rewrite') throw new Error('Answer the current question before recording its rewrite.');
-  if (placement.kind !== session.baseline.kind || placement.evidenceKind !== session.baseline.evidenceKind) throw new Error('A sample cannot replace a personal placement in the same interview.');
-  if (placement.runId !== session.baseline.runId || placement.contractDigest !== session.baseline.contractDigest) throw new Error('The forecast changed. Start a new measured trail on this forecast; keep the previous words.');
+  const previous = session.placements.at(-1)!;
+  if (placement.kind !== previous.kind || placement.evidenceKind !== previous.evidenceKind) throw new Error('A sample cannot replace a personal placement in the same interview.');
+  if (placement.runId !== previous.runId || placement.contractDigest !== previous.contractDigest) throw new Error('The forecast changed. Place again explicitly on this forecast; keep the previous words.');
   const current = session.current + 1;
   return { ...session, placements: [...session.placements, placement], draftIdea: placement.idea, current, phase: current >= session.questions.length ? 'complete' : 'question' };
+}
+
+export function rebaseInterview(session: Interview, placement: Placement): Interview {
+  if (placement.kind !== session.baseline.kind) throw new Error('A sample cannot replace personal work during forecast recovery.');
+  return { ...session, placements: [...session.placements, placement], draftIdea: placement.idea };
 }
 
 export function stopInterview(session: Interview): Interview {
@@ -71,12 +77,15 @@ export function exportHandoff(session: Interview): string {
     '# Dark Space — Hand-off', '',
     `Evidence: ${first.evidenceKind}. Placement: ${first.kind}.`,
     'This informs your 2-scope brain dump. It is a starting point, not a completed scope or quality score.', '',
-    `Forecast run: ${first.runId}`, `Vector contract: ${first.contractDigest}`, '',
+    `Original forecast run: ${first.runId}`, `Original vector contract: ${first.contractDigest}`,
+    `Last evidence: ${last.evidenceKind}`, `Last forecast run: ${last.runId}`, `Last vector contract: ${last.contractDigest}`, '',
     '## Idea before', '', rawBlock(first.idea), '', metric(first), '',
     '## Idea after — last successful placement', '', rawBlock(last.idea), '', metric(last), '',
   ];
   if (session.draftIdea !== last.idea) lines.push('## Unplaced draft — no measurement', '', rawBlock(session.draftIdea), '');
-  if (first.density !== null && last.density !== null) {
+  if (first.runId !== last.runId || first.contractDigest !== last.contractDigest) {
+    lines.push('The forecast changed between these placements. Their percentiles are historical measurements on different references; no movement comparison is calculated.', '');
+  } else if (first.density !== null && last.density !== null) {
     const difference = last.density.percentile - first.density.percentile;
     lines.push(`Measured percentile change: ${difference.toFixed(2)} percentage points. ${Math.abs(difference) < 1 ? 'The measured crowding changed little.' : difference < 0 ? 'The last placement is more crowded in this forecast.' : 'The last placement is less crowded in this forecast.'}`, 'This is not an assessment of idea quality.', '');
   }
@@ -86,7 +95,7 @@ export function exportHandoff(session: Interview): string {
     if (placement.nearbyClusters.length === 0) lines.push('No measured clusters available.', '');
     else lines.push(...placement.nearbyClusters.map(cluster => `- ${cluster.name}: ${cluster.memberCount} forecast samples; mean nearest-member cosine distance ${cluster.distance}.`), '');
   }
-  lines.push('## Defaults considered and answers — exact words', '');
+  lines.push('## Defaults considered and answers — exact words', '', `Question/default frequencies refer to the original forecast ${first.runId}.`, '');
   for (const question of session.questions) {
     const value = question.default;
     lines.push(`### ${value.label}`, '', `${value.count}/${value.denominator} cluster samples (${(100 * value.count / value.denominator).toFixed(2)}%); ${value.unknown} unknown.`, '', value.question, '', `Status: ${question.status}.`, '', rawBlock(question.answer), '');

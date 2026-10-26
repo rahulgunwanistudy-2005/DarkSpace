@@ -89,7 +89,7 @@ Build small working slices, verify each, and save a commit. The unique kernel ar
 
 This user-authorized migration is the active build order before resuming the remaining original slices. Rahul directed applying the already-stated permissions without a repeated interview. Earlier unchecked boxes are retained honestly; they are not silently marked complete. Scope, PRD and spec carry the exact supplied ruling and its revision basis.
 
-- [ ] **6. Remove gallery material from publication paths and install a safety gate**
+- [x] **6. Remove gallery material from publication paths and install a safety gate**
   Becomes usable: The source tree and Git history exclude the real development corpus; staged/tracked checks block recurrence.
   Why now: Data handling must be safe before another bundle or commit.
   PRD ref: `prd.md > Organizer Ruling — Data Boundary Revision`.
@@ -128,3 +128,5 @@ This user-authorized migration is the active build order before resuming the rem
   Verify (mechanical): Python/core/web checks, production build, Playwright smoke through Cua, desktop/phone screenshots, companion protected-path tests and pre-push scan.
   Learner check: Inspect sample labels and the downloaded hand-off; no real backtest accuracy is implied.
   Commit: `test: verify fixture-only demo and local data boundary`
+
+- Migration slice 6 verified and committed as `254ccdf`: 2 safety tests passed, strict types/lint passed, 64 tracked/staged files had zero violations, and the sanitized full-object history scan found zero violations across 125 blobs. The pre-commit hook is active. Original corpus is absent from reachable history and its former blob is no longer present.

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -34,7 +35,9 @@ def fingerprints(text: str, size: int = 8) -> tuple[Fingerprint, ...]:
 def text_issue(text: str, known: tuple[Fingerprint, ...]) -> str | None:
     if re.search(r"https?://(?:www\.)?devpost\.com/software/[a-z0-9]", text, re.IGNORECASE):
         return "entrant project URL"
-    if re.search(r"https?://github\.com/civictechdc/hackdc2025/[^\s\"]*/projects/", text, re.IGNORECASE):
+    if re.search(
+        r"https?://github\.com/civictechdc/hackdc2025/[^\s\"]*/projects/", text, re.IGNORECASE
+    ):
         return "entrant project source URL"
     tokens = words(text)
     for size in {value.words for value in known}:
@@ -68,12 +71,82 @@ def file_issue(
         return None
     if path.startswith(("data/raw/", "data/corpora/", "data/cache/", "data/development/")):
         return "real/development corpus path"
-    if path.startswith("data/runs/") and len(parts) > 2 and not parts[2].startswith("fixture-"):
+    if (
+        path.startswith("data/runs/")
+        and len(parts) > 2
+        and parts[2] != "README.md"
+        and not parts[2].startswith("fixture-")
+    ):
         return "non-fixture run must remain local"
     text = payload.decode("utf-8", errors="replace")
     issue = text_issue(text, known)
     if issue:
         return issue
+    if path == "data/backtest-summary.json":
+        try:
+            summary = json.loads(text)
+            keys = {
+                "status",
+                "evidence",
+                "run_id",
+                "coverage",
+                "control",
+                "lift",
+                "ci",
+                "curve",
+                "drop_counts",
+            }
+            if (
+                set(summary) != keys
+                or summary["status"] not in {"not_run", "validated"}
+                or summary["evidence"] != "real"
+            ):
+                return "real backtest summary has non-aggregate fields"
+            identity = summary["run_id"]
+            if identity is not None and (
+                not isinstance(identity, str) or re.fullmatch(r"[a-f0-9]{64}", identity) is None
+            ):
+                return "real backtest summary run identity is invalid"
+            metric_keys = {
+                "matched",
+                "eligible",
+                "rate",
+                "lower",
+                "upper",
+                "difference_pp",
+                "ratio",
+                "confidence_level",
+                "attempts",
+                "coverage",
+                "control",
+                "invalid",
+                "unknown",
+                "provider_errors",
+                "refusals",
+                "repair_attempts",
+                "repair_failures",
+                "unavailable",
+                "duplicates",
+                "excluded",
+            }
+
+            def numeric(value: object) -> bool:
+                if value is None:
+                    return True
+                if isinstance(value, bool):
+                    return False
+                if isinstance(value, (int, float)):
+                    return math.isfinite(value)
+                if isinstance(value, list):
+                    return all(numeric(item) for item in value)
+                if isinstance(value, dict):
+                    return all(key in metric_keys and numeric(item) for key, item in value.items())
+                return False
+
+            if not all(numeric(summary[key]) for key in keys - {"status", "evidence", "run_id"}):
+                return "real backtest summary contains text or per-project fields"
+        except (ValueError, TypeError, AttributeError):
+            return "invalid aggregate backtest summary"
     if path == "web/static/data/current.json":
         try:
             bundle = json.loads(text)

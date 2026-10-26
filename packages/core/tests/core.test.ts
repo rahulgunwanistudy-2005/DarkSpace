@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { place, densityReference, validateRun, validateIdea, startInterview, saveAnswerDraft, answerQuestion, skipQuestion, saveIdeaDraft, recordPlacement, stopInterview, confirmAvoided, exportHandoff, isCurrentPlacement } from '../src/index.ts';
+import { place, densityReference, validateRun, validateIdea, startInterview, saveAnswerDraft, answerQuestion, skipQuestion, saveIdeaDraft, recordPlacement, stopInterview, confirmAvoided, exportHandoff, isCurrentPlacement, rebaseInterview } from '../src/index.ts';
 import type { ForecastRun, Placement, SharedDefault } from '../src/contracts.ts';
 
 function forecast(defaults?: readonly SharedDefault[]): ForecastRun {
@@ -136,4 +136,32 @@ test('avoidance requires explicit confirmation and cannot introduce unknown defa
   assert.deepEqual(confirmed.confirmedAvoided, ['d']);
   assert.ok(exportHandoff(confirmed).includes('user-confirmed, not model-verified'));
   assert.throws(() => confirmAvoided(session, ['not-asked']), /considered/u);
+});
+
+test('explicit forecast recovery retains exact answers and question progress without comparing incompatible percentiles', () => {
+  const first = placed();
+  const answer = '  Keep this unfinished answer.\n';
+  const old = saveAnswerDraft(startInterview(first), answer);
+  const next = { ...first, runId: 'new-forecast', density: { meanDistance: 0.8, percentile: 99, k: 10 } };
+  const recovered = rebaseInterview(old, next);
+  assert.equal(recovered.questions[0]?.answer, answer);
+  assert.equal(recovered.current, old.current);
+  assert.equal(recovered.placements.length, 2);
+  const output = exportHandoff(recovered);
+  assert.ok(output.includes('no movement comparison is calculated'));
+  assert.ok(!output.includes('Measured percentile change:'));
+  assert.ok(output.includes('Last forecast run: new-forecast'));
+});
+
+test('explicit real-to-fixture recovery keeps words and permits later rewrites only on the active reference', () => {
+  let session = saveAnswerDraft(startInterview(placed()), '  preserved across the data boundary  ');
+  const fixtureRun = { ...forecast(), runId:'new-sample-data', evidenceKind:'sample-data' as const };
+  const rebound = placed(fixtureRun);
+  session = rebaseInterview(session,rebound);
+  assert.equal(session.questions[0]?.answer,'  preserved across the data boundary  ');
+  session = answerQuestion(session);
+  session = recordPlacement(session,rebound);
+  assert.equal(session.current,1);
+  assert.match(exportHandoff(session),/Last evidence: sample-data/);
+  assert.match(exportHandoff(session),/no movement comparison is calculated/);
 });

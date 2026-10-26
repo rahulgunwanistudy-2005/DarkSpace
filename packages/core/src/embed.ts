@@ -1,3 +1,4 @@
+/// <reference path="./onnx-wasm.d.ts" />
 import { BertTokenizer } from '@huggingface/transformers';
 import { InferenceSession, Tensor, env as onnxEnvironment } from 'onnxruntime-web/wasm';
 import contract from './embedding-contract.json' with { type: 'json' };

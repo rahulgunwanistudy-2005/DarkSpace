@@ -1,0 +1,11 @@
+{
+  "status": "not_run",
+  "evidence": "real",
+  "run_id": null,
+  "coverage": null,
+  "control": null,
+  "lift": null,
+  "ci": null,
+  "curve": [],
+  "drop_counts": null
+}

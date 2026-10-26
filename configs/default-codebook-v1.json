@@ -1,0 +1,27 @@
+{
+  "id": "literal-mechanisms-v1",
+  "interpretation": "Counts explicit words in each public idea plus its model-supplied mechanism. These are text-pattern measurements, not human-validated semantic labels. Nonmatches mean no matching wording, not proven absence of a feature. Each rule counts at most once per sample.",
+  "development_source": "data/development/civic-hack-dc-2025.json",
+  "rules": [
+    {"id":"tracking","label":"mentions tracking","pattern":"\\btrack(?:er|ers|ing|s)?\\b","topic":"Tracking & routines","question":"What have you learned from trying to track something that these ideas overlook?"},
+    {"id":"reminders","label":"mentions reminders or notifications","pattern":"\\b(?:remind(?:er|ers|ing|s)?|notif(?:y|ies|ication|ications))\\b","topic":"Reminders","question":"What do you know about when a reminder helps, or gets ignored, in your own situation?"},
+    {"id":"recommendations","label":"mentions recommendations or suggestions","pattern":"\\b(?:recommend(?:ation|ations|ing|s|ed)?|suggest(?:ion|ions|ing|s|ed)?)\\b","topic":"Recommendations","question":"What do you know about the people using this that a general recommendation would miss?"},
+    {"id":"personalization","label":"mentions personalization","pattern":"\\b(?:personali[sz](?:e|ed|es|ing|ation)|customi[sz](?:e|ed|es|ing|ation|able)|tailor(?:ed|ing|s)?)\\b","topic":null,"question":"What specific knowledge from your life would change what gets personalized?"},
+    {"id":"chat","label":"mentions chat or conversation","pattern":"\\b(?:chat(?:bot|bots|s|ting)?|conversation(?:al|s)?)\\b","topic":"Chat interfaces","question":"What do you know about this task that would change how a conversation should work?"},
+    {"id":"questions","label":"mentions answering questions","pattern":"\\b(?:answer(?:s|ing)?|question(?:s)?|q&a)\\b","topic":"Questions & answers","question":"What questions come up in your own experience that these ideas would not know to ask?"},
+    {"id":"search","label":"mentions search or retrieval","pattern":"\\b(?:search(?:es|ing)?|retriev(?:e|es|al|ing)|rag)\\b","topic":"Search & retrieval","question":"What do you know about finding the right information here that these search ideas overlook?"},
+    {"id":"analysis","label":"mentions analysis","pattern":"\\b(?:analy[sz](?:e|es|ed|ing)|analysis|analytics)\\b","topic":null,"question":"What context from your own experience would change how these results should be interpreted?"},
+    {"id":"summaries","label":"mentions summaries","pattern":"\\bsummar(?:y|ies|i[sz](?:e|es|ed|ing|ation))\\b","topic":"Summaries","question":"What would you need to keep in a summary that someone unfamiliar with this work might leave out?"},
+    {"id":"extraction","label":"mentions extracting information","pattern":"\\bextract(?:s|ed|ing|ion)?\\b","topic":"Information extraction","question":"What do you know about these documents or inputs that would change what gets extracted?"},
+    {"id":"classification","label":"mentions classification or tags","pattern":"\\b(?:classif(?:y|ies|ied|ying|ication)|categor(?:y|ies|i[sz](?:e|es|ed|ing|ation))|tag(?:s|ging)?)\\b","topic":"Classification","question":"What distinctions matter in your own work that the usual categories would miss?"},
+    {"id":"visualization","label":"mentions charts or visualization","pattern":"\\b(?:visuali[sz](?:e|es|ed|ing|ation|ations)|chart(?:s)?|graph(?:s)?|dashboard(?:s)?)\\b","topic":"Charts & dashboards","question":"What decision in your own experience would this display need to help someone make?"},
+    {"id":"generation","label":"mentions generating content","pattern":"\\bgenerat(?:e|es|ed|ing|ion)\\b","topic":null,"question":"What would you bring from your own experience that would change what gets generated?"},
+    {"id":"automation","label":"mentions automation","pattern":"\\bautomat(?:e|es|ed|ing|ion|ic|ically)\\b","topic":null,"question":"What part of this work needs your judgment even when the routine steps are automated?"},
+    {"id":"quizzes","label":"mentions quizzes or flashcards","pattern":"\\b(?:quiz(?:zes)?|flashcards?)\\b","topic":"Quizzes & revision","question":"What have you noticed about how people learn this that a generated quiz would miss?"},
+    {"id":"tasks","label":"mentions tasks or to-do lists","pattern":"\\b(?:tasks?|to[ -]do|prioriti[sz](?:e|ed|es|ing|ation))\\b","topic":"Tasks & priorities","question":"What do you know about how this work actually gets done that a task list would miss?"},
+    {"id":"habits","label":"mentions habits or routines","pattern":"\\b(?:habits?|routines?)\\b","topic":"Habits & routines","question":"What have you learned about keeping a routine that these ideas would not know?"},
+    {"id":"journaling","label":"mentions journaling or reflection","pattern":"\\b(?:journal(?:s|ing)?|reflect(?:ion|ions|ing)?|gratitude|mood)\\b","topic":"Journaling & reflection","question":"What personal experience would change how someone reflects with this tool?"},
+    {"id":"sentiment","label":"mentions sentiment or emotions","pattern":"\\b(?:sentiment|emotions?|mood)\\b","topic":"Mood & sentiment","question":"What do you know about expressing feelings in this setting that a general model might miss?"},
+    {"id":"feedback","label":"mentions feedback","pattern":"\\bfeedback\\b","topic":null,"question":"What makes feedback useful in your own experience with this problem?"}
+  ]
+}
