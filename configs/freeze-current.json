@@ -1,0 +1,19 @@
+{
+  "protocol": "darkspace-evaluation-v1",
+  "files": {
+    "configs/briefs/build-with-ai-basics.txt": "1fa090adbb192edac57de4029de479977710ddc3f220c34f85b615044438abb1",
+    "configs/current-event.json": "60e293a1a4b2d6bc04ec386f1b31a1f06aeaa6204899b431d2a280d6b44c59c7",
+    "darkspace/__init__.py": "38dc87bb81e4d035ac3ce264c887cd12496f3002231e9e85e4660539fe208285",
+    "darkspace/cache.py": "07e04803a7b5fd63252c9d877ce388ccf40bc769d0416e798e30981ebb845e86",
+    "darkspace/cli.py": "0959020b1e79a731258c7acb28bbd4ba84e109ace6f4237fa21994f0caa616c9",
+    "darkspace/freeze.py": "e38695b11c3977c29728c164c45b24373e62e4bed3f039662fc550d3b183572c",
+    "darkspace/models.py": "30814db042c2e8d2083e653dfdf273f2f5216fc93b1632f2e8344ac68bc4b24e",
+    "darkspace/providers.py": "837aab3b5bf3fc487f9938c7d0e5af8a28cb1fbc0cce73eebc857a059a7896fd",
+    "darkspace/sample.py": "c4f92ed88905880daa34fdc02e713e7e83955225418b38707c60dbe2f06000aa",
+    "devpost/research/model-registry.json": "fe8462d42aa5df17672c9b3cc7bea93a717e979e99bb4034bd299de84d2d96c6",
+    "devpost/spec.md": "2abab1980f316bd2116500d42939313d1b552dcc0e395c57258a0b472e0f7b94",
+    "pyproject.toml": "9da15527e106ee4d8ec5698b344e1a635707ed69480e2fe0aa348b165a11fff4",
+    "uv.lock": "6818257dc27391856c640044a6aee8de675a9cc95bf07c7ef63af45e345ff68d"
+  },
+  "sha256": "3be6a12aac8b291c59f3936c8381b234b8a6bea611b6754f899fea3dc53839e6"
+}

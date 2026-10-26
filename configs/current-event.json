@@ -1,0 +1,36 @@
+{
+  "protocol": "darkspace-evaluation-v1",
+  "event": "Build With AI: Basics",
+  "event_start": "2026-09-22",
+  "brief": "Build With AI: Basics\nLearn AI best practices by creating a solid proof-of-concept for your dream project.\n\nBuild a working first draft of an app in an afternoon using AI best practices, with a set of reusable skills in your coding agent. Learn with a live build session, office hours, community, and a $2,500 prize pool, while creating something useful to your work or your life.\n\nWhat to build\nA new app, built with the Devpost Learn Skill Pack. The skills will help you find an idea if you don't have one, and cut it down if you have too much of one.\n\nThree requirements, all checked at submission:\n- New project, started from an empty folder during the submission period. Old ideas are fine, old code is not.\n- Built with the skills. Run them in your coding agent.\n- Planning docs in the repo. Your public repository must include the scope.md, prd.md, and spec.md files the skills generate.\n",
+  "brief_source": "https://learn-ai-basics.devpost.com/",
+  "brief_scope": "Exact organizer overview excerpts: title, subtitle, opening summary and What to build requirements; excludes logistics, prizes table and gallery. Registration/submission start September 22, 2026 verified at https://learn-ai-basics.devpost.com/rules . Current forecast only.",
+  "models": [
+    {
+      "tag": "llama3.1:8b-instruct-q4_K_M",
+      "digest": "sha256:46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+      "released": "2024-07-23",
+      "release_source": "https://ai.meta.com/blog/meta-llama-3-1/"
+    },
+    {
+      "tag": "qwen2.5:7b-instruct-q4_K_M",
+      "digest": "sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "released": "2024-09-19",
+      "release_source": "https://qwenlm.github.io/blog/qwen2.5/"
+    },
+    {
+      "tag": "mistral:7b-instruct-v0.3-q4_K_M",
+      "digest": "sha256:6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+      "released": "2024-05-22",
+      "release_source": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3"
+    },
+    {
+      "tag": "gemma3:4b-it-q4_K_M",
+      "digest": "sha256:68ceab7e468a31c988b44d5a4984a0e21f58c4f7158c6ce29c1804babac38df7",
+      "released": "2025-03-12",
+      "release_source": "https://blog.google/technology/developers/gemma-3/"
+    }
+  ],
+  "arm": "event",
+  "seed": 42
+}

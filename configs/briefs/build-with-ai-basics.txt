@@ -1,0 +1,12 @@
+Build With AI: Basics
+Learn AI best practices by creating a solid proof-of-concept for your dream project.
+
+Build a working first draft of an app in an afternoon using AI best practices, with a set of reusable skills in your coding agent. Learn with a live build session, office hours, community, and a $2,500 prize pool, while creating something useful to your work or your life.
+
+What to build
+A new app, built with the Devpost Learn Skill Pack. The skills will help you find an idea if you don't have one, and cut it down if you have too much of one.
+
+Three requirements, all checked at submission:
+- New project, started from an empty folder during the submission period. Old ideas are fine, old code is not.
+- Built with the skills. Run them in your coding agent.
+- Planning docs in the repo. Your public repository must include the scope.md, prd.md, and spec.md files the skills generate.

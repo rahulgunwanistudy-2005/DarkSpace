@@ -11,7 +11,7 @@ Build small working slices, verify each, and save a commit. The unique kernel ar
 
 ## Slices
 
-- [ ] **1. Place a sentence against a declared fixture and export its exact-word interview**
+- [x] **1. Place a sentence against a declared fixture and export its exact-word interview**
   Becomes usable: A local command measures a supplied vector against a tiny synthetic forecast, runs a bounded interview state and exports the actual words with provenance.
   Why now: Proves the measurement and authorship rules before investing in the map; bootstraps the shared package in this slice.
   PRD ref: `prd.md > Forecast Map and Kernel Placement`, `Defaults Interview`, `Hand-off Contents`.
@@ -82,3 +82,4 @@ Build small working slices, verify each, and save a commit. The unique kernel ar
 ## Revisions
 
 - October 26: Rahul explicitly delegated finding and proceeding with the strongest technical approach. Saved the chosen spec and order under that authorization. Original product requirements remain in scope/PRD; human labels, scientific stop rules and final hands-on review are not waived.
+- Slice 1 verified and committed as `0395b68`: 10/10 Node tests passed, strict TypeScript passed, fixture hand-off generated with exact words and explicit synthetic provenance. Node's native TypeScript loader required erasable syntax; enabled that check. The installed Skill Pack has an existing trailing blank line in its checklist template; left it unchanged as required, and scoped whitespace verification to project-authored files.
