@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte';
   import Map from '../lib/Map.svelte';
+  import Mark from '../lib/Mark.svelte';
   import { loadRun, type ViewRun } from '../lib/data.ts';
   import { startInterview, saveAnswerDraft, answerQuestion, skipQuestion, saveIdeaDraft, recordPlacement, rebaseInterview, stopInterview, confirmAvoided, exportHandoff, isCurrentPlacement } from '../../../packages/core/src/interview.ts';
   import { validateIdea } from '../../../packages/core/src/place.ts';
@@ -183,15 +184,15 @@
 
 <main class:has-panel={panel}>
   <header class="instrument-header">
-    <a class="wordmark" href="/" aria-label="Dark Space home"><span class="brand-symbol" aria-hidden="true">✧</span>Dark Space</a>
+    <a class="wordmark" href="/" aria-label="Dark Space home"><span class="brand-symbol"><Mark size={26}/></span>Dark Space</a>
     <nav class="navigation" aria-label="Main navigation"><a class="active" href="/" aria-current="page">Forecast map</a><a href="/methods" onclick={leavingForMethods}>Methods <span aria-hidden="true">↗</span></a></nav>
     <span class="privacy-pill"><span aria-hidden="true"></span>Private by design</span>
   </header>
   <section class="workspace-intro" aria-labelledby="workspace-title">
     <div class="event-label"><span aria-hidden="true"></span>{run?.event??'Build With AI: Basics'}</div>
     <h1 id="workspace-title">Find room for your own idea.</h1>
-    <p>{run?.bundleKind==='fixture'?'sample data · This gallery and these forecasts are made up.':'Local recording · Model forecasts, not real entries.'}</p>
-    {#if run}<div class="run-summary"><span><strong>{run.points.length}</strong> {run.bundleKind==='fixture'?'sample forecasts':'sampled ideas'}</span><span><strong>{run.clusters.length}</strong> {run.clusters.length===1?'cluster':'clusters'}</span><span>Forecast only <i aria-hidden="true"></i></span>{#if typeof run.provenance?.attempted==='number'}<span>{run.provenance.attempted} attempted · {String(run.provenance.failures)} failed</span>{/if}</div>{/if}
+    <p>{!run?'Reading the saved forecast…':run.bundleKind==='fixture'?'sample data · This gallery and these forecasts are made up.':'Local recording · Model forecasts, not real entries.'}</p>
+    {#if run}<div class="run-summary"><span><strong>{run.points.length}</strong> {run.bundleKind==='fixture'?'sample forecasts':'sampled ideas'}</span><span><strong>{run.clusters.length}</strong> {run.clusters.length===1?'cluster':'clusters'}</span><span>Forecast only <i aria-hidden="true"></i></span>{#if typeof run.provenance?.attempted==='number'}<span>{run.provenance.attempted} {run.bundleKind==='fixture'?'fixture inputs':'attempted'} · {String(run.provenance.failures)} {run.bundleKind==='fixture'?'invalid':'failed'}</span>{/if}</div>{/if}
   </section>
   <div class="evidence-status"><span class="status-mark"></span>{#if run?.bundleKind==='fixture' && run.backtest}<span>sample data · Coverage {run.backtest.coverage.matched}/{run.backtest.eligible} · Control {run.backtest.control.matched}/{run.backtest.eligible} · Lift {run.backtest.lift_pp} pp</span><button class="quiet" onclick={()=>{viewEvidence=true;panel=true;}}>Inspect sample cards</button>{:else}Real backtest pending. No coverage claim is available.{/if}</div>
   {#if run}<Map {run} {placement} trail={session?.placements??[]}/>{/if}
@@ -199,14 +200,14 @@
   {#if !run}<section class="unavailable" aria-live="polite"><h2>{failure?'The forecast is unavailable':'Reading the saved forecast'}</h2><p>{message}</p><button onclick={()=>void initialize()}>Try again</button></section>{/if}
 
   {#if panel}<aside class="instrument-panel" aria-label="Idea neighborhood">
-    <div class="panel-heading"><span class="panel-symbol" aria-hidden="true">✧</span><span>Idea neighborhood</span></div>
+    <div class="panel-heading"><span class="panel-symbol"><Mark size={16}/></span><span>Idea neighborhood</span></div>
     <button class="close-panel quiet" aria-label="Close panel" onclick={()=>panel=false}>×</button>
     {#if viewEvidence && run?.gallery}<section class="fixture-evidence"><h2>sample data</h2><p>Made-up cards and authored-tag matching show the pipeline, not real forecasting accuracy.</p><button onclick={()=>viewEvidence=false}>Back to my idea</button>{#each run.gallery as card}<article class="sample-gallery-card"><small>{card.dataLabel}</small><h3>{card.title}</h3><p>{card.tagline}</p><p>Forecast: {card.forecastMatched?'matched':'unmatched'} · Control: {card.controlMatched?'matched':'unmatched'}</p></article>{/each}</section>
     {:else if busy}<div class="progress" role="status"><span>Placing on this device</span><h2>{stage}</h2><p class="timer">{elapsed.toFixed(1)} s</p><p>The map stays interactive. Your sentence stays here.</p><button onclick={()=>cancel()}>Cancel</button></div>
     {:else if stale}<div class="stale"><h2>This was placed on an older forecast.</h2><p>Your words and answers are still here. Old percentiles are not current.</p><button onclick={placeCurrent}>Place again</button></div>
     {:else if placement}
       <div class="placement-kind">{placement.kind==='sample'?'Sample placement':'Your idea’s neighborhood'}{#if run?.bundleKind==='fixture'} · sample data{/if}</div>
-      {#if placement.density}<div class="percentile">{format(placement.density.percentile)}<span>th</span></div><p class="metric-label">density percentile</p><p class="metric-meaning">Higher means less crowded in this {run?.bundleKind==='fixture'?'made-up sample':'sampled forecast'}. It does not mean a better idea.</p>{:else}<h2>Density unavailable</h2>{/if}
+      {#if placement.density}<div class="percentile">{format(placement.density.percentile)}<span>th</span></div><div class="percentile-scale" aria-hidden="true"><i style:left="{Math.min(100,Math.max(0,placement.density.percentile))}%"></i><span>0</span><span>50</span><span>100</span></div><p class="metric-label">density percentile</p><p class="metric-meaning">Higher means less crowded in this {run?.bundleKind==='fixture'?'made-up sample':'sampled forecast'}. It does not mean a better idea.</p>{:else}<h2>Density unavailable</h2>{/if}
       <h2 class="cluster-name">{placement.assignedClusterId?run?.clusters.find(value=>value.id===placement?.assignedClusterId)?.name:'Outside the sampled clusters'}</h2>
       {#if placement.kind==='sample'}<p class="sample-note">Sample: {placement.idea}</p><p class="muted">Place your sentence to begin your own interview.</p>{/if}
       {#if placement.missing.length}<div class="missing"><strong>{placement.missing.length} missing {placement.missing.length===1?'component':'components'}</strong>{#each placement.missing as item}<p>{item}</p>{/each}</div>{/if}
