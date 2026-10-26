@@ -32,3 +32,15 @@ web/static/models/
 /videos/
 /recordings/
 /local-bundle/
+
+# Databases and real recording/export containers never belong in publication.
+**/*.db
+**/*.zip
+**/*.tar
+**/*.gz
+**/*.zst
+**/*.mp4
+**/*.mov
+**/*.webm
+**/*.sqlite*
+**/*.db-*

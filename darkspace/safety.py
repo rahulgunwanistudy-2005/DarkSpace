@@ -16,7 +16,7 @@ class Fingerprint:
 
 
 def words(text: str) -> list[str]:
-    return re.findall(r"[a-z0-9]+", unicodedata.normalize("NFKC", text).casefold())
+    return re.findall(r"[^\W_]+", unicodedata.normalize("NFKC", text).casefold())
 
 
 def fingerprints(text: str, size: int = 8) -> tuple[Fingerprint, ...]:
@@ -62,7 +62,7 @@ def file_issue(
     if (
         suffix
         in {".sqlite", ".sqlite3", ".db", ".zip", ".gz", ".zst", ".tar", ".mp4", ".webm", ".mov"}
-        or ".sqlite-" in path
+        or re.search(r"\.(?:sqlite3?|db)-(?:wal|shm|journal)$", path, re.IGNORECASE) is not None
     ):
         return "database, archive or recording must remain local"
     if suffix in {".png", ".jpg", ".jpeg", ".webp", ".gif", ".pdf"}:

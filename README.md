@@ -33,6 +33,30 @@ node scripts/export-bundle.mjs fixture data/runs/fixture-d14769c6fc4b987ec90459e
 
 Actual fixture arithmetic: **6/8 forecast matches, 6/8 control matches, zero lift**. The paired bootstrap interval is **−50 to +50 percentage points**, using seed 42 and 10,000 resamples. Matching compares authored audience/problem/mechanism tags and is used only for fixtures. This is not an LLM-judge result. The zero gap is not tuned away.
 
+## Fetch the permitted gallery locally
+
+Run this on your own machine, from the repository:
+
+```sh
+uv run darkspace corpus fetch
+```
+
+It requests `learn-ai.devpost.com/robots.txt` first, respects its rules and crawl delay, and waits at least three seconds between all requests, including redirects. It fetches gallery pages only; it does not fetch entrant project pages, avatars or screenshots. Off-host redirects, robots denial, unreadable pages and HTTP failures stop collection with local provenance retained.
+
+Snapshots, raw responses, project URLs, titles/taglines and failure ledgers remain under `.darkspace-local/corpora/learn-ai/`. Repeating the command reuses the verified snapshot with zero requests. `--refresh` creates a new snapshot; `--max-pages N` sets an explicit cap, which is reported as incomplete if pagination remains. Duplicate projects are counted; missing text stays unknown rather than being discarded. Exhausting visible HTML pagination does not establish complete event eligibility.
+
+The fetcher adds hash-only local fingerprints to the staging guard, including partial snapshots. It never prints entrant wording or uploads it to hosted models. These controls are tested with made-up HTTP responses; no live gallery collection was performed during the migration.
+
+The real corpus is not shipped. There is currently no validated real backtest number to reproduce: `data/backtest-summary.json` remains `not_run`. A real evaluation still needs its frozen event/brief/model provenance, retained local corpus and cache, and human judge-validation gates. The fixture matcher must never be used to manufacture a real result.
+
+For the original retained model-sampling run, offline replay verifies its exact existing bytes with zero model calls:
+
+```sh
+PYTHONPATH=. uv run python scripts/replay-public-run.py .darkspace-local/runs/da833e6b1cf8bf6b9348b22e0f6b0d5663eeeaea6dc3b3b64ffaf679aef3e09e/samples.json
+```
+
+That command requires the retained local artifact and archived protocol; it does not imply fresh model generation will be byte-identical on other hardware. No original real result was recomputed or changed by this migration.
+
 ## Real data and local recording
 
 The real corpus is **not in the repository**. Collected titles/taglines, entrant URLs, caches, per-project matches, raw run artifacts, screenshots and recording bundles belong in ignored `.darkspace-local/` paths. Only text-free aggregate backtest results may be committed.
@@ -92,3 +116,5 @@ The original real development corpus was removed from history after the user was
 - [Offline app map](devpost/app-map.html)
 
 The actual model-generation path uses four pinned families, recorded in `configs/current-event.json`. Personal placement shares one BGE-small q8 WASM contract across browser and terminal. No current Build With AI: Basics gallery is collected, and no fixture or retrospective generation is presented as a historically timestamped forecast.
+
+New sampling under the updated data policy uses `configs/freeze-local-policy.json`; the original freeze is retained for replay of the archived run. Neither access permission nor a sampling run substitutes for the separate real backtest gates.

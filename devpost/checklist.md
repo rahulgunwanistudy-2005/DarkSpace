@@ -99,7 +99,7 @@ This user-authorized migration is the active build order before resuming the rem
   Learner check: Inspect the audit and exact commit mapping; no entrant wording is copied into the report.
   Commit: `fix: keep gallery material out of source and history`
 
-- [ ] **7. Build separate fixture and local recording exports**
+- [x] **7. Build separate fixture and local recording exports**
   Becomes usable: The public app and tests consume made-up gallery/forecasts labelled sample data; local recording output stays ignored.
   Why now: Public behavior must obey the ruling before real-data collection tools are exposed.
   PRD ref: `prd.md > Organizer Ruling — Data Boundary Revision`, `Backtest Reveal`.
@@ -130,3 +130,5 @@ This user-authorized migration is the active build order before resuming the rem
   Commit: `test: verify fixture-only demo and local data boundary`
 
 - Migration slice 6 verified and committed as `254ccdf`: 2 safety tests passed, strict types/lint passed, 64 tracked/staged files had zero violations, and the sanitized full-object history scan found zero violations across 125 blobs. The pre-commit hook is active. Original corpus is absent from reachable history and its former blob is no longer present.
+
+- Migration slice 7 verified and committed as `2cca881`: 8 made-up projects, 16 forecasts and 16 controls; fixture coverage/control both 6/8, lift 0, CI [-50, 50] retained. Both production builds passed. 14 Node tests, 12 Python tests, strict engine types and Svelte checks passed. Browser inspection confirmed all eight sample card labels and private placement. The companion workflow/output protection remains; only its source resolution follows the local bundle boundary.

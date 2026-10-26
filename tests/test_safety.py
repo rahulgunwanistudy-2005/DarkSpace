@@ -16,6 +16,8 @@ def test_gallery_wording_and_urls_are_blocked_without_storing_the_words_in_polic
     )
     assert file_issue("innocent.json", invented.encode(), known, {}) is not None
     assert file_issue("renamed.sqlite", b"database", (), {}) is not None
+    assert file_issue("renamed.sqlite3-wal", b"database", (), {}) is not None
+    assert file_issue("cache.db-shm", b"database", (), {}) is not None
     assert file_issue(".darkspace-local/run.json", b"{}", (), {}) is not None
     assert file_issue("web/static/data/current.json", b'{"bundleKind":"local"}', (), {}) is not None
     assert (
@@ -55,3 +57,8 @@ def test_git_index_guard_rejects_staged_gallery_wording_in_an_isolated_repositor
     assert result.returncode == 1
     assert "known gallery wording fingerprint" in result.stdout
     assert phrase not in result.stdout
+
+
+def test_gallery_fingerprints_also_cover_non_latin_text() -> None:
+    phrase = "एक काल्पनिक चाँद कार्यशाला अपनी छोटी छतरियाँ साझा करती है"
+    assert text_issue("prefix " + phrase + " suffix", fingerprints(phrase)) is not None
