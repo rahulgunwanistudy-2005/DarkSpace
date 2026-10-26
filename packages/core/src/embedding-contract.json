@@ -1,0 +1,41 @@
+{
+  "id": "bge-small-q8-cls-wasm-v1",
+  "model": "Xenova/bge-small-en-v1.5",
+  "revision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
+  "dimensions": 384,
+  "pooling": "cls",
+  "normalize": true,
+  "max_tokens": 512,
+  "transformers_js": "3.8.1",
+  "onnx_wasm": "1.22.0-dev.20250409-89f8206ba4",
+  "threads": 1,
+  "assets": {
+    "config.json": {
+      "sha256": "fa73f90bf92c8cace1fbcb709626306f2bdbc9ea3e5b5f94b440df9b6aa56350",
+      "bytes": 683
+    },
+    "onnx/model_quantized.onnx": {
+      "sha256": "6c9c6101a956d62dfb5e7190c538226c0c5bb9cb27b651234b6df063ee7dbfe4",
+      "bytes": 34014426
+    },
+    "tokenizer.json": {
+      "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "bytes": 711396
+    },
+    "tokenizer_config.json": {
+      "sha256": "9261e7d79b44c8195c1cada2b453e55b00aeb81e907a6664974b4d7776172ab3",
+      "bytes": 366
+    }
+  },
+  "runtime_assets": {
+    "ort-wasm-simd-threaded.wasm": {
+      "sha256": "f061472c6e77d6d50d079aacdc0ff9b63fee287ddd2cbf46cf62438d3891de2b",
+      "bytes": 11133407
+    },
+    "ort-wasm-simd-threaded.mjs": {
+      "sha256": "43c25054b6b9ac000f786c65545ff83a45f871e0e310e8c2f4d48a363bb66db4",
+      "bytes": 20856
+    }
+  },
+  "digest": "9c9fbeea910174ba4ddfe46f203f7144cf4dfeef33cc1c374f75f438eacfc9c9"
+}

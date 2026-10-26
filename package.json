@@ -3,15 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24.19.0" },
-  "workspaces": ["packages/core"],
+  "engines": {
+    "node": ">=24.19.0"
+  },
+  "workspaces": [
+    "packages/core"
+  ],
   "scripts": {
     "test": "node --test packages/core/tests/*.test.ts",
     "check:core": "tsc --project packages/core/tsconfig.json",
-    "fixture": "node packages/core/src/fixture.ts"
+    "fixture": "node packages/core/src/fixture.ts",
+    "assets:placement": "node scripts/prepare-placement-assets.mjs",
+    "verify:embedding": "node scripts/verify-embedding.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "typescript": "7.0.2"
+  },
+  "overrides": {
+    "sharp": "0.35.5"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.8.1",
+    "onnxruntime-web": "1.22.0-dev.20250409-89f8206ba4"
   }
 }

@@ -46,3 +46,9 @@ UMAP is display only. Private points use deterministic local interpolation of pu
 - Rahul's blind labels and judge agreement before any claimed backtest success.
 
 These are acceptance gates. Architecture feasibility does not establish the product's scientific claim.
+
+## Implementation check
+
+The implemented shared embedding module reproduced all eight canonical probe vectors with maximum component difference **0.0** on this host. Strict TypeScript checking passed. Exact model plus WASM/glue assets total **45,881,134 bytes**, excluding application JavaScript; the earlier 34.73 MB figure describes model/tokenizer/config assets alone. The optional model load must not block the first screen.
+
+A dependency audit found vulnerable image-processing dependencies in the tokenizer package's old dependency tree, although this app uses text only. The root dependency resolution now pins patched Sharp 0.35.5; npm reported zero vulnerabilities after rebuilding the lockfile. The tested tokenizer and WASM versions remain unchanged. Recheck the installed tree when updating dependencies.
