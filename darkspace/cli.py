@@ -1,6 +1,4 @@
 import argparse
-import subprocess
-import sys
 from collections.abc import Callable
 from pathlib import Path
 
@@ -45,48 +43,13 @@ def sample_run(
 
 
 def main() -> None:
-    if sys.argv[1:2] == ["fixtures"]:
-        from darkspace.fixtures import main as fixtures_main
-
-        fixtures_main(sys.argv[2:])
-        return
-    if sys.argv[1:3] == ["corpus", "fetch"]:
-        from darkspace.corpus import main as corpus_main
-
-        corpus_main(sys.argv[3:])
-        return
-    if sys.argv[1:2] == ["corpus"]:
-        print("Usage: darkspace corpus fetch [--refresh] [--max-pages N]")
-        return
-    if sys.argv[1:2] == ["export"]:
-        export_parser = argparse.ArgumentParser(description="Explicit fixture or local-only export")
-        export_parser.add_argument("mode", choices=["fixture", "local"])
-        export_parser.add_argument("--run", type=Path, required=True)
-        export_args = export_parser.parse_args(sys.argv[2:])
-        subprocess.run(
-            [
-                "node",
-                str(Path(__file__).resolve().parents[1] / "scripts/export-bundle.mjs"),
-                export_args.mode,
-                str(export_args.run),
-            ],
-            check=True,
-        )
-        return
-    parser = argparse.ArgumentParser(
-        description="DarkSpace fixtures, explicit exports, local corpus collection and public-prompt sampling"
-    )
+    parser = argparse.ArgumentParser(description="Public-data-only Dark Space pipeline")
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("fixtures", help="Run the made-up fixture pipeline")
-    commands.add_parser("corpus", help="Fetch the permitted corpus locally")
-    commands.add_parser("export", help="Export an explicit fixture or local bundle")
     sample = commands.add_parser("sample")
     sample.add_argument("--config", type=Path, required=True)
-    sample.add_argument(
-        "--cache", type=Path, default=Path(".darkspace-local/cache/completions.sqlite")
-    )
-    sample.add_argument("--output", type=Path, default=Path(".darkspace-local/runs"))
-    sample.add_argument("--lock", type=Path, default=Path("configs/freeze-local-policy.json"))
+    sample.add_argument("--cache", type=Path, default=Path(".cache/public-completions.sqlite"))
+    sample.add_argument("--output", type=Path, default=Path("data/runs"))
+    sample.add_argument("--lock", type=Path, default=Path("configs/freeze-current.json"))
     args = parser.parse_args()
     config = SamplingConfig.model_validate_json(args.config.read_bytes())
     lock = ProtocolLock.model_validate_json(args.lock.read_bytes())
@@ -144,7 +107,3 @@ def main() -> None:
     print(
         f"Public samples saved: {target}; valid {artifact['valid']}/{len(samples)}; new model calls {calls}"
     )
-
-
-if __name__ == "__main__":
-    main()

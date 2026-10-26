@@ -1,12 +1,10 @@
 # Dark Space
 
-Place an idea, examine shared defaults, answer in your own words, and carry one hand-off into scoping.
+See where sampled models converge before committing to a hackathon idea. Place your sentence privately, examine shared wording, and bring your own answers into scoping.
 
-## Public demo: sample data only
+## Try the app
 
-The committed/deployed demo uses a small gallery and forecasts made up from scratch. Every card says **sample data**. These fixtures demonstrate the pipeline and interaction; they do not validate prediction of real entrants.
-
-Requires Node 24.19 or later:
+Requires Node 24.19 or later. No API key or personal inference server is needed.
 
 ```sh
 npm ci
@@ -15,106 +13,76 @@ npm run build
 npm run preview:production
 ```
 
-Open **http://127.0.0.1:4173/**. No account, API key or personal inference server is needed. The local model/runtime assets total about 46 MB and come from the same site. Your idea and answers remain on your device.
+Open **http://127.0.0.1:4173/**. The saved forecast and a labeled sample appear immediately. The private model downloads from the same site in the background; first-time assets total about 46 MB. Your sentence and answers stay on your device. The terminal companion needs its local asset copy: `npm run assets:placement`.
 
-The public build refuses a local recording bundle. The public browser build also rejects a local bundle at runtime.
+For development, use `npm run dev`. Development fixtures are available only with an explicit development query and are excluded from the production build.
 
-## Reproduce the fixture result
+## Evidence and limits
 
-Requires Python 3.12 and uv:
+The actual public run attempted **384 ideas**, 96 from each of four model families. **383 parsed successfully; one was invalid** after one failed repair. There were no provider errors or embedding failures. Kaggle supplied two free T4 GPUs; the run used the frozen prompts, model digests and Ollama 0.40.11. Public sampling received no learner profile, personal idea or interview answer.
 
-```sh
-uv sync --locked --python 3.12
-uv run darkspace fixtures --config configs/fixture.yaml
-node scripts/export-bundle.mjs fixture data/runs/fixture-d14769c6fc4b987ec90459e808ac6c0bb3539e68e933019bc007fab5395e0c9b/bundle.json
-```
+HDBSCAN found **five clusters with 122 members**, leaving **261 unclustered ideas**. All 383 ideas remain on the map and in density calculations. Four saved examples are selected by a fixed rule: the first valid sample from each model, without picking for appealing results.
 
-`configs/fixture.yaml` uses YAML 1.2's JSON-compatible syntax. Inputs are in `data/fixtures/`; the recorded run and manifests are under `data/runs/fixture-…/`. Shared-WASM vectors are precomputed for the made-up forecast sentences; `node scripts/embed-fixtures.mjs` regenerates them.
+- [Current forecast report](data/runs/4f6cfb90c4cc38756b04814c159bfbc18ca111c8ebc0530067e872b704505383/REPORT.md)
+- [Raw counted samples](data/runs/da833e6b1cf8bf6b9348b22e0f6b0d5663eeeaea6dc3b3b64ffaf679aef3e09e/samples.json)
+- [Offline replay receipt](data/runs/da833e6b1cf8bf6b9348b22e0f6b0d5663eeeaea6dc3b3b64ffaf679aef3e09e/offline-replay.json)
+- [Literal matching rules](configs/default-codebook-v1.json)
 
-Actual fixture arithmetic: **6/8 forecast matches, 6/8 control matches, zero lift**. The paired bootstrap interval is **−50 to +50 percentage points**, using seed 42 and 10,000 resamples. Matching compares authored audience/problem/mechanism tags and is used only for fixtures. This is not an LLM-judge result. The zero gap is not tuned away.
+The historical backtest, matched control comparison and LLM-judge validation remain **pending**. No entrant-prediction claim, coverage percentage or GO result has been demonstrated. No current-event gallery is collected. The UI states these limits.
 
-## Fetch the permitted gallery locally
+Default frequencies measure **explicit wording**, using the public sentence plus its model-supplied mechanism. “Mentions tracking” does not prove that a working tracker exists. Nonmatching text does not prove a feature is absent. The saved rules replaced an exact-text pass that found no majority defaults; the current forecast is therefore exploratory. These are not human-validated semantic labels or a held-out evaluation.
 
-Run this on your own machine, from the repository:
+The sampling models are Llama 3.1 8B Instruct, Qwen 2.5 7B Instruct, Mistral 7B Instruct v0.3, and Gemma 3 4B IT, pinned to the digests and release sources in [the configuration](configs/current-event.json). They appear as Models A–D in the product. Placement uses BGE-small-en-v1.5 under [the exact shared WASM contract](packages/core/src/embedding-contract.json).
 
-```sh
-uv run darkspace corpus fetch
-```
+## Local companion
 
-It requests `learn-ai.devpost.com/robots.txt` first, respects its rules and crawl delay, and waits at least three seconds between all requests, including redirects. It fetches gallery pages only; it does not fetch entrant project pages, avatars or screenshots. Off-host redirects, robots denial, unreadable pages and HTTP failures stop collection with local provenance retained.
+The companion is optional, between `1-start` and `2-scope`. Organizer eligibility is unresolved; the same command remains usable manually if skill integration is disallowed.
 
-Snapshots, raw responses, project URLs, titles/taglines and failure ledgers remain under `.darkspace-local/corpora/learn-ai/`. Repeating the command reuses the verified snapshot with zero requests. `--refresh` creates a new snapshot; `--max-pages N` sets an explicit cap, which is reported as incomplete if pagination remains. Duplicate projects are counted; missing text stays unknown rather than being discarded. Exhausting visible HTML pagination does not establish complete event eligibility.
-
-The fetcher adds hash-only local fingerprints to the staging guard, including partial snapshots. It never prints entrant wording or uploads it to hosted models. These controls are tested with made-up HTTP responses; no live gallery collection was performed during the migration.
-
-The real corpus is not shipped. There is currently no validated real backtest number to reproduce: `data/backtest-summary.json` remains `not_run`. A real evaluation still needs its frozen event/brief/model provenance, retained local corpus and cache, and human judge-validation gates. The fixture matcher must never be used to manufacture a real result.
-
-For the original retained model-sampling run, offline replay verifies its exact existing bytes with zero model calls:
-
-```sh
-PYTHONPATH=. uv run python scripts/replay-public-run.py .darkspace-local/runs/da833e6b1cf8bf6b9348b22e0f6b0d5663eeeaea6dc3b3b64ffaf679aef3e09e/samples.json
-```
-
-That command requires the retained local artifact and archived protocol; it does not imply fresh model generation will be byte-identical on other hardware. No original real result was recomputed or changed by this migration.
-
-## Real data and local recording
-
-The real corpus is **not in the repository**. Collected titles/taglines, entrant URLs, caches, per-project matches, raw run artifacts, screenshots and recording bundles belong in ignored `.darkspace-local/` paths. Only text-free aggregate backtest results may be committed.
-
-`data/backtest-summary.json` currently says **not run**, with null metrics. No validated real coverage, control, lift, confidence interval or judge-reliability result exists in this checkout. Permission to collect data does not validate an evaluation. Fixture results never replace real results.
-
-The earlier actual model forecast was preserved locally: 384 attempts, 383 valid ideas, one invalid result, no provider or embedding failures. Its original bytes, frozen protocol and offline replay receipt remain local. Those counts are sampling results, not entrant coverage.
-
-Explicit export/build commands for a locally generated forecast:
-
-```sh
-node scripts/export-bundle.mjs local .darkspace-local/runs/RUN_ID/forecast.json
-npm run build:local
-npm run preview:local
-```
-
-Open **http://127.0.0.1:4174/** for recording. Output is `.darkspace-local/site/`, which is ignored and must never be deployed. Local gallery cards require anonymised display summaries; the exporter does not copy original titles/taglines into display cards. A local forecast without a validated backtest keeps that backtest pending.
-
-The organizer has not approved public deployment of gallery-derived summaries. Until that changes, the public demo remains fixtures only.
-
-## Companion
-
-The organizer approved the installable companion. Its one-question-at-a-time interview and protected hand-off are retained. The loader prefers the locally installed real forecast, so the public fixture is not passed off as a real crowd forecast.
-
-Run it yourself in a local interactive terminal:
+Run it yourself in an interactive local terminal, so private words are not captured in hosted agent output:
 
 ```sh
 npm run assets:placement
 node packages/core/src/companion.ts /absolute/path/to/your-project
 ```
 
-It reads the learner profile locally and writes only `darkspace-output/HANDOFF.md`, refusing protected paths, symlinks and overwrite. It does not write in `devpost/` or edit Skill Pack files. Bring the hand-off into your own `2-scope` brain dump.
+It reads that project's `devpost/learner-profile.md` locally, asks one open question at a time, and writes `darkspace-output/HANDOFF.md`. It refuses protected paths, symlinks and overwrite. It never edits `devpost/` or Skill Pack files. Bring the hand-off into your own `2-scope` brain dump.
 
-## Safety and checks
+## Verification
 
 ```sh
-git config core.hooksPath .githooks
-python3 scripts/check-data-safety.py --tracked --staged
-python3 scripts/check-data-safety.py --history
 npm test
 npm run check:core
 npm run check:web
+npm run verify:embedding
+uv sync --locked --python 3.12
 uv run pytest -q
 uv run ruff check darkspace tests scripts
+PYTHONPATH=. uv run python scripts/replay-public-run.py data/runs/da833e6b1cf8bf6b9348b22e0f6b0d5663eeeaea6dc3b3b64ffaf679aef3e09e/samples.json
 ```
 
-The hook blocks real-data paths, SQLite files, archives, recordings, unreviewed media, entrant project URLs and known gallery wording fingerprints. Fingerprints store hashes, not wording. Repeat the full history scan immediately before the first push. No push was performed during the cleanup.
+Analysis has an isolated lock so scientific dependencies do not change the frozen sampler:
 
-The original real development corpus was removed from history after the user was notified. [The audit](devpost/research/data-boundary-audit.md) records exact paths and commit mapping without reproducing entrant wording.
+```sh
+PYTHONPATH=. uv run --script --locked darkspace/analysis.py --input data/runs/da833e6b1cf8bf6b9348b22e0f6b0d5663eeeaea6dc3b3b64ffaf679aef3e09e/analysis-input.json --output /tmp/darkspace-analysis.json
+```
 
-## Planning and provenance
+For strict Python checks including scientific libraries:
 
-- [Scope](devpost/scope.md)
-- [Product behavior](devpost/prd.md)
-- [Technical specification](devpost/spec.md)
-- [Verified build slices](devpost/checklist.md)
-- [Offline app map](devpost/app-map.html)
+```sh
+uv run --with numpy==2.5.4 --with scikit-learn==1.9.1 --with umap-learn==0.5.12 mypy --strict darkspace
+```
 
-The actual model-generation path uses four pinned families, recorded in `configs/current-event.json`. Personal placement shares one BGE-small q8 WASM contract across browser and terminal. No current Build With AI: Basics gallery is collected, and no fixture or retrospective generation is presented as a historically timestamped forecast.
+Cached replay makes zero new model calls and reproduces the raw artifact bytes. The cache can be reconstructed from preserved raw completions; the original cloud SQLite file was not imported. Analysis reruns were byte-identical on this recorded environment; fresh model generation is not guaranteed identical across hardware.
 
-New sampling under the updated data policy uses `configs/freeze-local-policy.json`; the original freeze is retained for replay of the archived run. Neither access permission nor a sampling run substitutes for the separate real backtest gates.
+The synthetic fixture command `npm run fixture` verifies arithmetic and state handling only. It is never evidence of model forecasting quality. Personal hand-offs, profiles, credentials, caches and model assets are excluded from Git.
+
+## Project documents
+
+- [Approved scope](devpost/scope.md)
+- [Approved product behavior](devpost/prd.md)
+- [Selected technical specification](devpost/spec.md)
+- [Build and review progress](devpost/checklist.md)
+- [Dataset access and exposure ledger](devpost/research/dataset-screening.md)
+- [Architecture comparison](devpost/research/architecture-decision.md)
+
+Civic Tech DC's licensed documentation is development material already exposed during planning, not an untouched historical test. Its source, license and fetch record are saved with [the development corpus](data/development/civic-hack-dc-2025.json). Human labels and authorized historical access cannot be replaced with agent-created verdicts.

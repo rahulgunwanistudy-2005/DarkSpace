@@ -130,6 +130,6 @@
   <canvas bind:this={canvas} onpointermove={inspect} onpointerleave={() => hover=null} aria-label="Forecast map. Hollow rings are sampled model ideas. Use Browse ideas for the same point details by keyboard."></canvas>
   <div class="map-tools"><span class="ring"></span> Forecast ideas <button onclick={() => showList=!showList} aria-expanded={showList}>Browse ideas</button><button aria-label="Zoom in" onclick={() => select(canvas).call(behavior.scaleBy,1.4)}>+</button><button aria-label="Zoom out" onclick={() => select(canvas).call(behavior.scaleBy,1/1.4)}>−</button></div>
   {#if showList}<div class="browse"><label for="point-select">Forecast idea</label><select id="point-select" bind:value={selectedId} onchange={event => hover=run.points.find(point=>point.id===event.currentTarget.value)??null}><option value="">Choose an idea</option>{#each run.points as point,index}<option value={point.id}>Idea {index+1}: {point.idea}</option>{/each}</select></div>{/if}
-  {#if hover}<div class="point-card" role="status"><span>Forecast idea {run.points.findIndex(point=>point.id===hover?.id)+1}</span><p>{hover.idea}</p><small>{run.bundleKind==='fixture'?'sample data · Made-up forecast.':'Model output. Not a real entry.'}</small></div>{/if}
-  <div class="projection-note">{run.bundleKind==='fixture'?'sample data · Authored layout.':'A projection of sampled ideas.'} Screen distance does not measure novelty.</div>
+  {#if hover}<div class="point-card" role="status"><span>Forecast idea {run.points.findIndex(point=>point.id===hover?.id)+1}</span><p>{hover.idea}</p><small>Model output. Not a real entry.</small></div>{/if}
+  <div class="projection-note">A projection of sampled ideas. Screen distance does not measure novelty.</div>
 </div>

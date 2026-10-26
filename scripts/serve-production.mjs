@@ -3,9 +3,8 @@ import { readFile, stat } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { createHash } from 'node:crypto';
 
-const local=process.argv.includes('--local');
-const root = resolve(local?'.darkspace-local/site':'web/build');
-const port = Number(process.env.DARKSPACE_PORT ?? (local?4174:4173));
+const root = resolve('web/build');
+const port = Number(process.env.DARKSPACE_PORT ?? 4173);
 const mime = { '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.wasm':'application/wasm', '.onnx':'application/octet-stream', '.woff':'font/woff', '.woff2':'font/woff2', '.webp':'image/webp', '.svg':'image/svg+xml', '.png':'image/png' };
 const commonPolicy = "connect-src 'self'; worker-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
 createServer(async (request,response) => {
@@ -25,7 +24,7 @@ createServer(async (request,response) => {
     const extension = extname(file);
     if(extension==='.js'||extension==='.mjs') response.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; "+commonPolicy);
     response.setHeader('Content-Type',mime[extension]??'application/octet-stream');
-    response.setHeader('Cache-Control',local?'no-store':path.includes('/immutable/')?'public, max-age=31536000, immutable':'no-cache');
+    response.setHeader('Cache-Control',path.includes('/immutable/')?'public, max-age=31536000, immutable':'no-cache');
     const etag='"'+createHash('sha256').update(bytes).digest('hex')+'"';
     response.setHeader('ETag',etag);
     if(request.headers['if-none-match']===etag){console.log(JSON.stringify({method:request.method,path,status:304}));response.writeHead(304);response.end();return;}

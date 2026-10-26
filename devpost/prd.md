@@ -1,7 +1,6 @@
 ---
 doc: prd
 status: approved
-revision_basis: "Organiser ruling supplied by Rahul on 2026-10-27; Rahul explicitly directed applying it without repeating the interview. Boundary wording below quotes his instructions."
 ---
 
 # DarkSpace — Product Requirements
@@ -65,8 +64,7 @@ Source: `scope.md > What "Working" Looks Like` and `The POC Boundary`.
 - Keep control coverage beside event coverage so the gap is visible.
 - Show the measured results even if the gap is weak, absent, or reversed.
 - Disclose that this is a retrospective backtest generated using models released before the event; forecasts generated now must not be represented as historically timestamped predictions.
-- The public demo and CI use a small made-up gallery with matching made-up forecasts. Every card is labelled “sample data”; this proves the interaction and pipeline, not forecasting accuracy.
-- Real corpus text, cache prompts, per-project matches and recording bundles stay local and gitignored. Only aggregate results may be public. No invented numbers replace unavailable real evaluation artifacts.
+- The backtest ships precomputed with the repository. No invented numbers may replace unavailable evaluation artifacts.
 - On transition to the current hackathon, remove all past-event real-project points from the active map and retain a clickable corner summary. Its real-project count and match count must agree with the reveal and source artifact. “123” in the learner's example is conditional on the eventual corpus actually containing 123 eligible projects.
 - The optional historical replay repeats the same real-versus-forecast proof with solid dots for real projects, hollow rings for forecasts, a distinct replay color, and the historical event clearly labeled. It must not represent past projects as current submissions.
 
@@ -158,7 +156,7 @@ Source: `scope.md > The Core Loop`, `The POC Boundary`, and `Companion Eligibili
 - Write one hand-off outside `devpost/`, listing nearby crowded clusters, defaults avoided, and the builder's own answers; tell the builder to bring it into their `2-scope` brain dump.
 - Follow the same bounded, user-controlled interview and hand-off contents above. The hand-off includes existing before/after placement measurements; the skill does not introduce its own scoring system.
 - Never write anything in `devpost/` or edit Skill Pack files. Do not include backtest execution, map UI, or scoring in the skill.
-- The reported organizer ruling approves the installable companion. Keep it as built, with its local-only hand-off and no writes to planning or Skill Pack files.
+- Implementation is provisionally authorized. If organizers reject the integration, remove the skill and retain a manual hand-off step.
 
 ## States and Boundaries
 
@@ -197,7 +195,7 @@ Source: `scope.md > The Core Loop`, `The POC Boundary`, and `Companion Eligibili
 
 ## What We're Building
 
-The retrospective backtest reveal, current-event forecast map, placement and defaults interview, and organizer-approved terminal companion within the approved scope. All displayed measurements must come from actual artifacts.
+The retrospective backtest reveal, current-event forecast map, placement and defaults interview, and provisional terminal companion within the approved scope. All displayed measurements must come from actual artifacts.
 
 ## Deferred From the POC
 
@@ -239,16 +237,4 @@ No unanswered interview question remains for this draft's core journey. Ordinary
 
 `4-spec` must resolve how personal placement stays on-device, what supported-device limits it has, and how unavailable on-device placement uses the disclosed sample fallback. Do not retain a remote personal-placement design from the kit if it conflicts with the local-only requirement. Exact fonts, thresholds, model revisions, sample budgets, and the frozen evaluation protocol also belong there.
 
-The organizer has approved local gallery collection and the companion as stated in the scope. Public redistribution of derived gallery summaries is still unapproved. Scientific evaluation and human judge validation remain separate pending conditions.
-
-## Organizer Ruling — Data Boundary Revision
-
-Rahul supplied this ruling and then directed: “i want you just change the build as per the permissions we have now !!” No new learner answers are invented. Existing product decisions remain except where this ruling supersedes them.
-
-> I may collect the learn-ai.devpost.com gallery on my own machine (slow requests, robots.txt honoured, anonymised cards in the demo). I must NOT commit the collected titles and taglines to the public repo. They belong to the other entrants. If the project needs sample data, use a small made-up set, and the README says how to fetch the real one.
-
-> The installable companion skill is fine. The repo must still contain the scope.md, prd.md and spec.md the Skill Pack generated.
-
-> Until I say they said yes, the deployed demo uses fixtures only.
-
-The learner specified two exports: “a fixture bundle (committed and deployed) whose cards are labelled 'sample data'” and “a local bundle (gitignored) used only to record my video from the real run.” The public surface does not silently switch to local data. Permission to ship derived summaries is not assumed.
+Organizer confirmation and authorized evaluation data remain external conditions tracked in the scope. Their absence must not be concealed by the product. These conditions are not evidence of a successful evaluation or a completed build.

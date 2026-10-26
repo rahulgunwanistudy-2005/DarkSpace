@@ -1,4 +1,4 @@
-import { readFile, access } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
 import { resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,10 +14,7 @@ if (!process.stdin.isTTY || !process.stdout.isTTY) {
   console.error('Run this companion yourself in an interactive local terminal. Personal ideas and answers must not be captured by a hosted agent.');
   process.exitCode = 1;
 } else {
-  const privateRun=resolve(repository,'.darkspace-local/bundles/current/data/current.json');
-  let runPath=privateRun;
-  try { await access(runPath); } catch { runPath=resolve(repository,'web/static/data/current.json'); }
-  const run = JSON.parse(await readFile(runPath, 'utf8')) as ForecastRun;
+  const run = JSON.parse(await readFile(resolve(repository, 'web/static/data/current.json'), 'utf8')) as ForecastRun;
   validateRun(run);
   if (run.evidenceKind !== 'model-forecast') throw new Error('The companion requires an actual public forecast.');
   const profile = await readFile(resolve(project, 'devpost/learner-profile.md'), 'utf8');

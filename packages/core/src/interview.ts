@@ -34,15 +34,15 @@ export function saveIdeaDraft(session: Interview, idea: string): Interview {
 
 export function recordPlacement(session: Interview, placement: Placement): Interview {
   if (session.phase !== 'rewrite') throw new Error('Answer the current question before recording its rewrite.');
+  if (placement.kind !== session.baseline.kind || placement.evidenceKind !== session.baseline.evidenceKind) throw new Error('A sample cannot replace a personal placement in the same interview.');
   const previous = session.placements.at(-1)!;
-  if (placement.kind !== previous.kind || placement.evidenceKind !== previous.evidenceKind) throw new Error('A sample cannot replace a personal placement in the same interview.');
   if (placement.runId !== previous.runId || placement.contractDigest !== previous.contractDigest) throw new Error('The forecast changed. Place again explicitly on this forecast; keep the previous words.');
   const current = session.current + 1;
   return { ...session, placements: [...session.placements, placement], draftIdea: placement.idea, current, phase: current >= session.questions.length ? 'complete' : 'question' };
 }
 
 export function rebaseInterview(session: Interview, placement: Placement): Interview {
-  if (placement.kind !== session.baseline.kind) throw new Error('A sample cannot replace personal work during forecast recovery.');
+  if (placement.kind !== session.baseline.kind || placement.evidenceKind !== session.baseline.evidenceKind) throw new Error('A sample cannot replace personal work during forecast recovery.');
   return { ...session, placements: [...session.placements, placement], draftIdea: placement.idea };
 }
 
@@ -78,7 +78,7 @@ export function exportHandoff(session: Interview): string {
     `Evidence: ${first.evidenceKind}. Placement: ${first.kind}.`,
     'This informs your 2-scope brain dump. It is a starting point, not a completed scope or quality score.', '',
     `Original forecast run: ${first.runId}`, `Original vector contract: ${first.contractDigest}`,
-    `Last evidence: ${last.evidenceKind}`, `Last forecast run: ${last.runId}`, `Last vector contract: ${last.contractDigest}`, '',
+    `Last forecast run: ${last.runId}`, `Last vector contract: ${last.contractDigest}`, '',
     '## Idea before', '', rawBlock(first.idea), '', metric(first), '',
     '## Idea after — last successful placement', '', rawBlock(last.idea), '', metric(last), '',
   ];

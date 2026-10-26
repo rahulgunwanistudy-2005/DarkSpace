@@ -23,9 +23,8 @@ def main() -> None:
     raw = args.source.read_bytes()
     report = json.loads(raw)
     config = SamplingConfig.model_validate(report["config"])
-    protocol_root = Path(".darkspace-local/protocols") / report["protocol_sha256"]
     protocol = verify(
-        protocol_root if protocol_root.exists() else Path.cwd(),
+        Path.cwd(),
         ProtocolLock.model_validate_json(Path("configs/freeze-current.json").read_bytes()),
     )
     if report["protocol_sha256"] != protocol:

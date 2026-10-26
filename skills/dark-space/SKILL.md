@@ -7,7 +7,7 @@ description: Place an existing learner idea among Dark Space's saved model forec
 
 Run after `1-start` has created `devpost/learner-profile.md`, before `2-scope`. This informs the learner's scoping; it never scopes for them.
 
-Locate the DarkSpace repository and check that `web/static/data/current.json` exists. Explain that this is a model forecast, not actual hackathon entries or validated entrant prediction. The learner reports organizer approval for this companion. Its local interview and protected hand-off boundary stay in place. It reads the local recording forecast when installed; it does not present the public fixture as a real forecast.
+Locate the DarkSpace repository and check that `web/static/data/current.json` exists. Explain that this is a model forecast, not actual hackathon entries or validated entrant prediction. Organizer eligibility for the companion is unresolved; if integration is disallowed, the same local command remains a manual step.
 
 Give the learner this command to run themselves in their local interactive terminal, replacing the two paths with the actual repository and learner project paths:
 

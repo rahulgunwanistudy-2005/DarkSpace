@@ -16,31 +16,6 @@ packages/core/dist/
 /darkspace-output/
 web/static/models/
 
-# Organizer data boundary: all real corpus/run material stays local.
+# Local recovery copies and collected development corpus
 /.darkspace-local/
-/data/corpora/
-/data/raw/
-/data/cache/
-/data/runs/*
-!/data/runs/README.md
-!/data/runs/fixture-*/
-**/*.sqlite
-**/*.sqlite3
-**/*.sqlite-wal
-**/*.sqlite-shm
-/devpost/research/screenshots/
-/videos/
-/recordings/
-/local-bundle/
-
-# Databases and real recording/export containers never belong in publication.
-**/*.db
-**/*.zip
-**/*.tar
-**/*.gz
-**/*.zst
-**/*.mp4
-**/*.mov
-**/*.webm
-**/*.sqlite*
-**/*.db-*
+/data/development/

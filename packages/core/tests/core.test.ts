@@ -152,16 +152,3 @@ test('explicit forecast recovery retains exact answers and question progress wit
   assert.ok(!output.includes('Measured percentile change:'));
   assert.ok(output.includes('Last forecast run: new-forecast'));
 });
-
-test('explicit real-to-fixture recovery keeps words and permits later rewrites only on the active reference', () => {
-  let session = saveAnswerDraft(startInterview(placed()), '  preserved across the data boundary  ');
-  const fixtureRun = { ...forecast(), runId:'new-sample-data', evidenceKind:'sample-data' as const };
-  const rebound = placed(fixtureRun);
-  session = rebaseInterview(session,rebound);
-  assert.equal(session.questions[0]?.answer,'  preserved across the data boundary  ');
-  session = answerQuestion(session);
-  session = recordPlacement(session,rebound);
-  assert.equal(session.current,1);
-  assert.match(exportHandoff(session),/Last evidence: sample-data/);
-  assert.match(exportHandoff(session),/no movement comparison is calculated/);
-});

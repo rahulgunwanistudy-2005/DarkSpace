@@ -13,7 +13,6 @@
   let placement = $state<Placement | null>(null);
   let session = $state<Interview | null>(null);
   let panel = $state(true);
-  let viewEvidence = $state(false);
   let started = $state(false);
   let stale = $state(false);
   let busy = $state(false);
@@ -105,7 +104,6 @@
     authored=true;
     if (recovery) restore();
     try { validateIdea(draft); } catch(error) { fail(error instanceof Error?error.message:'The sentence cannot be placed.'); return; }
-    viewEvidence=false;
     const sentence=draft;
     const id=++epoch;
     const start=performance.now();
@@ -138,7 +136,7 @@
     catch { fail('This browser could not read the forecast for private placement. Your sentence is unchanged. Try again.'); }
   }
   function useSample(sample: Placement): void {
-    cancel(false); viewEvidence=false; placement=sample; panel=true; message='Sample placement. Your own sentence has not been replaced or placed.';failure=false;
+    cancel(false); placement=sample; panel=true; message='Sample placement. Your own sentence has not been replaced or placed.';failure=false;
   }
   function begin(index=0): void {
     if(!session || placement?.kind!=='personal') return;
@@ -191,10 +189,10 @@
   <section class="workspace-intro" aria-labelledby="workspace-title">
     <div class="event-label"><span aria-hidden="true"></span>{run?.event??'Build With AI: Basics'}</div>
     <h1 id="workspace-title">Find room for your own idea.</h1>
-    <p>{!run?'Reading the saved forecast…':run.bundleKind==='fixture'?'sample data · This gallery and these forecasts are made up.':'Local recording · Model forecasts, not real entries.'}</p>
-    {#if run}<div class="run-summary"><span><strong>{run.points.length}</strong> {run.bundleKind==='fixture'?'sample forecasts':'sampled ideas'}</span><span><strong>{run.clusters.length}</strong> {run.clusters.length===1?'cluster':'clusters'}</span><span>Forecast only <i aria-hidden="true"></i></span>{#if typeof run.provenance?.attempted==='number'}<span>{run.provenance.attempted} {run.bundleKind==='fixture'?'fixture inputs':'attempted'} · {String(run.provenance.failures)} {run.bundleKind==='fixture'?'invalid':'failed'}</span>{/if}</div>{/if}
+    <p>{run?.evidenceKind==='synthetic-fixture'?'Synthetic test fixture. No real forecasts or entries.':'Forecast for this hackathon. These are not real entries.'}</p>
+    {#if run}<div class="run-summary"><span><strong>{run.points.length}</strong> sampled ideas</span><span><strong>{run.clusters.length}</strong> {run.clusters.length===1?'cluster':'clusters'}</span><span>Forecast only <i aria-hidden="true"></i></span>{#if typeof run.provenance?.attempted==='number'}<span>{run.provenance.attempted} attempted · {String(run.provenance.failures)} failed</span>{/if}</div>{/if}
   </section>
-  <div class="evidence-status"><span class="status-mark"></span>{#if run?.bundleKind==='fixture' && run.backtest}<span>sample data · Coverage {run.backtest.coverage.matched}/{run.backtest.eligible} · Control {run.backtest.control.matched}/{run.backtest.eligible} · Lift {run.backtest.lift_pp} pp</span><button class="quiet" onclick={()=>{viewEvidence=true;panel=true;}}>Inspect sample cards</button>{:else}Real backtest pending. No coverage claim is available.{/if}</div>
+  <div class="evidence-status"><span class="status-mark"></span>Historical backtest pending. No coverage claim is available.</div>
   {#if run}<Map {run} {placement} trail={session?.placements??[]}/>{/if}
   {#if recovery}<div class="recovery"><span>Continue where you left off.</span><button onclick={restore}>Continue</button><button class="quiet" onclick={forget}>Forget this idea</button></div>{/if}
   {#if !run}<section class="unavailable" aria-live="polite"><h2>{failure?'The forecast is unavailable':'Reading the saved forecast'}</h2><p>{message}</p><button onclick={()=>void initialize()}>Try again</button></section>{/if}
@@ -202,12 +200,11 @@
   {#if panel}<aside class="instrument-panel" aria-label="Idea neighborhood">
     <div class="panel-heading"><span class="panel-symbol"><Mark size={16}/></span><span>Idea neighborhood</span></div>
     <button class="close-panel quiet" aria-label="Close panel" onclick={()=>panel=false}>×</button>
-    {#if viewEvidence && run?.gallery}<section class="fixture-evidence"><h2>sample data</h2><p>Made-up cards and authored-tag matching show the pipeline, not real forecasting accuracy.</p><button onclick={()=>viewEvidence=false}>Back to my idea</button>{#each run.gallery as card}<article class="sample-gallery-card"><small>{card.dataLabel}</small><h3>{card.title}</h3><p>{card.tagline}</p><p>Forecast: {card.forecastMatched?'matched':'unmatched'} · Control: {card.controlMatched?'matched':'unmatched'}</p></article>{/each}</section>
-    {:else if busy}<div class="progress" role="status"><span>Placing on this device</span><h2>{stage}</h2><p class="timer">{elapsed.toFixed(1)} s</p><p>The map stays interactive. Your sentence stays here.</p><button onclick={()=>cancel()}>Cancel</button></div>
+    {#if busy}<div class="progress" role="status"><span>Placing on this device</span><h2>{stage}</h2><p class="timer">{elapsed.toFixed(1)} s</p><p>The map stays interactive. Your sentence stays here.</p><button onclick={()=>cancel()}>Cancel</button></div>
     {:else if stale}<div class="stale"><h2>This was placed on an older forecast.</h2><p>Your words and answers are still here. Old percentiles are not current.</p><button onclick={placeCurrent}>Place again</button></div>
     {:else if placement}
-      <div class="placement-kind">{placement.kind==='sample'?'Sample placement':'Your idea’s neighborhood'}{#if run?.bundleKind==='fixture'} · sample data{/if}</div>
-      {#if placement.density}<div class="percentile">{format(placement.density.percentile)}<span>th</span></div><div class="percentile-scale" aria-hidden="true"><i style:left="{Math.min(100,Math.max(0,placement.density.percentile))}%"></i><span>0</span><span>50</span><span>100</span></div><p class="metric-label">density percentile</p><p class="metric-meaning">Higher means less crowded in this {run?.bundleKind==='fixture'?'made-up sample':'sampled forecast'}. It does not mean a better idea.</p>{:else}<h2>Density unavailable</h2>{/if}
+      <div class="placement-kind">{placement.kind==='sample'?'Sample placement':'Your idea’s neighborhood'}</div>
+      {#if placement.density}<div class="percentile">{format(placement.density.percentile)}<span>th</span></div><div class="percentile-scale" aria-hidden="true"><i style:left="{Math.min(100,Math.max(0,placement.density.percentile))}%"></i><span>0</span><span>50</span><span>100</span></div><p class="metric-label">density percentile</p><p class="metric-meaning">Higher means less crowded in this sampled forecast. It does not mean a better idea.</p>{:else}<h2>Density unavailable</h2>{/if}
       <h2 class="cluster-name">{placement.assignedClusterId?run?.clusters.find(value=>value.id===placement?.assignedClusterId)?.name:'Outside the sampled clusters'}</h2>
       {#if placement.kind==='sample'}<p class="sample-note">Sample: {placement.idea}</p><p class="muted">Place your sentence to begin your own interview.</p>{/if}
       {#if placement.missing.length}<div class="missing"><strong>{placement.missing.length} missing {placement.missing.length===1?'component':'components'}</strong>{#each placement.missing as item}<p>{item}</p>{/each}</div>{/if}
@@ -218,7 +215,7 @@
           {#if question}<section class="question"><p class="muted">Question {session.current+1} of {session.questions.length}</p>{#if session.baseline.runId!==run?.runId}<p class="muted">Question context comes from the earlier forecast; your answers were preserved.</p>{/if}<h2>{question.default.question}</h2><label for="answer">Your answer, in your own words</label><textarea id="answer" value={question.answer} oninput={event=>{if(session)session=saveAnswerDraft(session,event.currentTarget.value);}} rows="5"></textarea><div class="actions"><button onclick={saveAnswer}>Save answer</button><button class="quiet" onclick={()=>{if(session)session=skipQuestion(session);}}>Skip</button></div></section>{/if}
         {:else if session.phase==='rewrite'}<section class="question"><h2>Put your knowledge into your idea.</h2><p>Edit the sentence below, then place it again. The rewrite is yours.</p><button onclick={()=>input?.focus()}>Edit my idea</button></section>
         {:else if session.phase==='complete'}<section class="complete"><h2>{session.stopped?'Interview stopped. Your words are saved.':session.questions.length?'Your hand-off is ready.':'No majority defaults to ask about.'}</h2>{#if session.baseline.runId===placement.runId && session.baseline.density && placement.density}<p>{format(session.baseline.density.percentile)} → {format(placement.density.percentile)} percentile</p><p>{Math.abs(placement.density.percentile-session.baseline.density.percentile)<1?'The measured crowding changed little.':placement.density.percentile<session.baseline.density.percentile?'The idea is more crowded in this forecast.':'The idea is less crowded in this forecast.'}</p>{/if}<p>Percentile is a result, not the goal. Take the hand-off into your <strong>2-scope</strong> brain dump.</p><details><summary>Defaults you confirm you avoided</summary><p>Optional. An answer alone does not prove avoidance.</p>{#each session.questions as question}<label class="confirmation"><input type="checkbox" checked={session.confirmedAvoided.includes(question.default.id)} onchange={event=>{if(session){const ids=new Set(session.confirmedAvoided);if(event.currentTarget.checked)ids.add(question.default.id);else ids.delete(question.default.id);session=confirmAvoided(session,[...ids]);}}}/>{question.default.label}</label>{/each}</details>{#if handoffURL}<a class="signal-button download-link" href={handoffURL} download="DARKSPACE-HANDOFF.md">Download hand-off</a>{/if}</section>
-        {:else}<section class="defaults"><h2>Shared defaults nearby</h2><p class="muted">{run?.bundleKind==='fixture'?'Authored sample traits counted within this made-up cluster.':'Measured frequencies among forecast samples in the nearby cluster.'}</p>{#each session.questions as question,index}<button class="default-row" onclick={()=>begin(index)}><span>{(100*question.default.count/question.default.denominator).toFixed(0)}%<small>{question.default.count}/{question.default.denominator}</small></span><span>{question.default.label}</span></button>{/each}{#if session.questions.length}<button class="signal-button" onclick={()=>begin()}>Begin interview</button>{/if}</section>{/if}
+        {:else}<section class="defaults"><h2>Shared defaults nearby</h2><p class="muted">Measured frequencies among forecast samples in the nearby cluster.</p>{#each session.questions as question,index}<button class="default-row" onclick={()=>begin(index)}><span>{(100*question.default.count/question.default.denominator).toFixed(0)}%<small>{question.default.count}/{question.default.denominator}</small></span><span>{question.default.label}</span></button>{/each}{#if session.questions.length}<button class="signal-button" onclick={()=>begin()}>Begin interview</button>{/if}</section>{/if}
         {#if session.phase!=='complete'}<button class="quiet stop" onclick={()=>{if(session)session=stopInterview(session);started=true;}}>Stop and keep my hand-off</button>{/if}
       {:else}<section class="defaults"><h2>Shared defaults nearby</h2>{#each placement.defaults.filter(value=>value.count/value.denominator>0.5).slice(0,5) as value}<div class="sample-default"><strong>{(100*value.count/value.denominator).toFixed(0)}%</strong><span>{value.label}</span></div>{/each}</section>{/if}
     {:else}<p class="muted">Your placement will appear here when the saved forecast and local model are available.</p>{/if}

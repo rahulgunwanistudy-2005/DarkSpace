@@ -17,18 +17,12 @@
     "assets:placement": "node scripts/prepare-placement-assets.mjs",
     "verify:embedding": "node scripts/verify-embedding.mjs",
     "dev": "npm run dev --workspace web",
-    "build": "node scripts/build-public.mjs",
+    "build": "npm run build --workspace web",
     "preview": "npm run preview --workspace web",
     "check:web": "npm run check --workspace web",
     "preview:production": "node scripts/serve-production.mjs",
     "companion": "node packages/core/src/companion.ts",
-    "prepare:web": "node scripts/prepare-placement-assets.mjs web/static/models",
-    "build:local": "node scripts/build-local.mjs",
-    "preview:local": "node scripts/serve-production.mjs --local",
-    "fixture:pipeline": "uv run --locked darkspace fixtures --config configs/fixture.yaml",
-    "bundle:fixture": "node scripts/export-bundle.mjs fixture",
-    "bundle:local": "node scripts/export-bundle.mjs local",
-    "check:data": "python3 scripts/check-data-safety.py --tracked --staged"
+    "prepare:web": "node scripts/prepare-placement-assets.mjs web/static/models"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
