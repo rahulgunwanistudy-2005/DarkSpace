@@ -1,6 +1,7 @@
 ---
 doc: scope
 status: approved
+revision_basis: "Organiser ruling supplied by Rahul on 2026-10-27; Rahul explicitly directed applying it without repeating the interview. Boundary wording below quotes his instructions."
 ---
 
 # DarkSpace
@@ -53,16 +54,16 @@ The requested reveal requires an authorized corpus and actual evaluation artifac
 - Measurement of placement in lower-density regions, tied to actual run artifacts.
 - A separate evaluation track using another authorized past event with its brief, submissions, and models released before the event. Selection and evaluation rules must be frozen before scoring.
 - A thin installable companion skill: terminal placement, shared defaults, open interview questions one at a time without suggested answers, and one hand-off containing nearby crowded clusters, defaults avoided, and the builder's own answers. It reads the learner profile but never writes anything in `devpost/` or edits Skill Pack files. “Dark Space informs my scoping, and I still do the scoping.”
-- The backtest ships as precomputed, reproducible artifacts with the repo; the map UI belongs in the web demo. Neither is performed by the companion skill. Precomputed means actual measured outputs, not invented results; those outputs do not exist yet.
+- Only text-free aggregate backtest results may ship with the repo; the corpus, cache, per-project matches and real-run bundles stay local. The fixture bundle is committed and deployed; the map UI belongs in the web demo. Neither is performed by the companion skill. Precomputed means actual measured outputs, not invented results; those outputs do not exist yet.
 - Colab GPUs or Kaggle GPU hours are authorized compute options. A Colab T4 hardware probe succeeded; no forecast or backtest has run.
 
 ## Companion Eligibility and Fallback
 
-Organizer confirmation is still required to establish whether the companion fits the event's rules. The learner explicitly said “for now build it,” authorizing provisional implementation within the normal planning/build sequence while eligibility remains unverified. If organizers say no, cut the skill and retain the hand-off file as a manual step. No organizer confirmation has been received or inferred.
+“The installable companion skill is fine.” Organizer eligibility is confirmed by the learner's reported ruling. Keep its existing local-only, no-planning-writes boundary.
 
 ## Later
 
-The learner is requesting Devpost data access in parallel. Its backtest reveal can be reconsidered when access is granted and the measured result is available. No Devpost gallery has been collected.
+Permission now allows the specified gallery to be collected locally. A real reveal still requires measured results. No Devpost gallery has been collected in this checkout.
 
 ## Explicitly Cut
 
@@ -74,8 +75,18 @@ The learner is requesting Devpost data access in parallel. Its backtest reveal c
 
 ## Pending External Conditions
 
-Organizer eligibility and data-access checks remain unresolved. The provisional companion and alternative-data approach above do not imply either external approval has been received.
+Local collection of the learn-ai.devpost.com gallery and the companion are allowed under the reported ruling. Public distribution of gallery-derived summaries remains unresolved and is not built in. Scientific validation is still separate from access permission.
 
 ## Current Evidence
 
 Dataset candidates and limitations are recorded in [dataset-screening.md](research/dataset-screening.md). No measured result or candidate listing constitutes a GO verdict. Rahul approved this scope on October 22, 2026. Approval defines the product boundary; it does not imply a completed evaluation or external permission.
+
+## Organizer Ruling — Data Boundary Revision
+
+Rahul supplied this ruling and then directed: “i want you just change the build as per the permissions we have now !!” No new learner answers are invented. Existing product decisions remain except where this ruling supersedes them.
+
+> I may collect the learn-ai.devpost.com gallery on my own machine (slow requests, robots.txt honoured, anonymised cards in the demo). I must NOT commit the collected titles and taglines to the public repo. They belong to the other entrants. If the project needs sample data, use a small made-up set, and the README says how to fetch the real one.
+
+> The installable companion skill is fine. The repo must still contain the scope.md, prd.md and spec.md the Skill Pack generated.
+
+> Until I say they said yes, the deployed demo uses fixtures only.

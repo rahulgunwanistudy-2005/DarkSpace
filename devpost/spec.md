@@ -1,6 +1,7 @@
 ---
 doc: spec
 status: approved
+revision_basis: "Organiser ruling supplied by Rahul on 2026-10-27; Rahul explicitly directed applying it without repeating the interview. Boundary wording below quotes his instructions."
 approval_basis: "Technical selection and proceeding delegated by Rahul on 2026-10-26; this does not claim he reviewed this file line by line."
 ---
 
@@ -144,7 +145,7 @@ Implements `prd.md > Companion Skill and Hand-off`.
 
 `skills/dark-space/SKILL.md` supplies ordering and the command; it does not ask the hosting agent to read the private profile into its context. The local interactive runner opens the profile, extracts the starting-idea section, lets the user edit it locally, calls the shared placement core, and interviews through the terminal. No private answers return through cloud-agent tool output; run it interactively in the user's terminal. Startup output contains only instructions and public artifact availability until the user takes over locally.
 
-One hand-off is written to `darkspace-output/HANDOFF.md`, outside `devpost/`; refuse output paths resolving inside `devpost/`, `.agents/`, installed skill directories, or a symlink into them. No edits to the profile, scope, or Skill Pack. No separate score, backtest execution or map in the skill. Manual local-runner use remains if the organizer disallows integration. Eligibility is still unresolved; no claim of approval.
+One hand-off is written to `darkspace-output/HANDOFF.md`, outside `devpost/`; refuse output paths resolving inside `devpost/`, `.agents/`, installed skill directories, or a symlink into them. No edits to the profile, scope, or Skill Pack. No separate score, backtest execution or map in the skill. Manual local-runner use remains if the organizer disallows integration. The learner reports that the organizer approved the installable companion. Its no-planning-writes boundary is unchanged.
 
 ## Frozen Evaluation Protocol v1
 
@@ -154,7 +155,7 @@ Implements `prd.md > Methods and Limitations`; freeze before test-corpus access.
 
 - Development only: Civic Hack DC July 26, 2025 organizer archive, whose summaries were already exposed during research. Verify its brief's pre-event provenance and license overrides. Small exploratory data; never call it untouched or representative.
 - Conditional held-out candidate: GovHack 2025, August 29–31, Digital Confidence: Tools for Safe Online Participation. Its advertised 21 entries are not a verified denominator. No individual project descriptions have been fetched. Verify 2025 licensing, authorized access route/robots and a pre-event brief version first. Current site access failed with HTTP 502; do not bypass that or treat current rules as historical proof.
-- Devpost stays unavailable until permission; do not scrape its gallery. No Build With AI: Basics gallery collection at all.
+- The reported ruling permits local-only collection of https://learn-ai.devpost.com/project-gallery. Use at least three seconds between requests, honour robots.txt, retain provenance locally, and keep collected titles/taglines, source project URLs, caches, per-project matches and local bundles out of Git. No Build With AI: Basics gallery collection. Public demo/CI use fixtures only.
 - Freeze a source manifest containing exact event/brief bytes and hashes, pre-event evidence, eligibility rule, authorized source route, license evidence and duplicate policy before collecting project bodies. All challenge-linked distinct projects are eligible if their submitted description is accessible under the verified rules; no winners-only selection. Unavailable/missing text stays in a completeness ledger and the eligible denominator with unknown outcome. Do not silently shrink the denominator.
 - Deduplicate by canonical project ID, not by idea similarity; challenge overlap is not an independent project. Keep exclusions with reason and source.
 - All generative, normalization and judge weights must be released strictly before the event starts. Freeze exact weight/template/tokenizer manifests and provenance; a family name alone is insufficient. Today's ONNX conversion may be used only if provenance establishes no post-event weight training. Pre-event release is a leakage precaution, not proof of unknown training cutoffs or historical forecasting.
@@ -241,7 +242,7 @@ Human labels cannot be supplied by the agent. Missing labels mean unvalidated, n
 | Public manifest | Run ID, event identity, mode, contract, file digests, item counts and failures, density calibration, defaults, layout, saved sample placements, optional validated backtest; immutable |
 | Placement | Kind personal/sample, exact sentence locally, run/contract, neighbors, nearest clusters, raw distance/percentile or explicit missing status, approximate x/y; personal never in public run |
 | Session | Schema version, original/current drafts and successful placements, queue and exact answer drafts/status, confirmations, current step, trail, run IDs; device only |
-| Backtest | Per-project pair verdicts and IDs, event/control flags, unknowns, judge-validation reference, metrics/bounds/intervals, provenance; public immutable |
+| Backtest | Corpus, per-project verdicts, URLs and raw/cache artifacts stay local. Only text-free aggregate coverage/control/lift/CI/curve/drop counts may be committed. Fixture results are distinctly labelled sample data. |
 
 All scientific UI numbers originate in immutable run artifacts or deterministic local measurements against those artifacts. A personal placement is stored locally with its public run provenance; it must never be written into the public `data/runs/` tree. This is the necessary privacy-preserving interpretation of the standing provenance rule. Display formatting never changes the raw value and rounded percentages include inspectable counts.
 
@@ -314,5 +315,23 @@ The static app and one worker replace a personal API/job server: privacy and no 
 - Rahul owns the product decisions in the approved PRD and delegated technical selection and proceeding on October 26. These implementation choices are the agent's researched selection, not invented learner interview answers. Fast mode was previously requested. This instruction supersedes another architecture-choice interview; it does not claim final hands-on review occurred.
 - Genuine uncertainty: Rahul wants to know when an LLM verdict deserves trust. The planned blind development labels, confusion matrix, unresolved counts and predeclared stopping gates turn that into a check he can perform. No human labels or learning outcome are claimed yet.
 - Measured: desktop browser feasibility and shared-WASM numerical parity on eight synthetic probe sentences. Unmeasured: semantic relevance on the task, real phone performance, production transfer time, actual forecast/backtest quality. These are build checks, not settled by the architecture benchmark.
-- External gates: authorized historical dataset/brief provenance; public GPU/model availability; Rahul's human labels; optional organizer skill eligibility. They limit claims, not permission to build the authorized forecast-first POC.
+- External gates: authorized historical dataset/brief provenance; public GPU/model availability; Rahul's human labels. Organizer skill eligibility is confirmed by the reported ruling. They limit claims, not permission to build the authorized forecast-first POC.
 - No historical coverage, lift, defaults frequency or forecast point count exists yet. Do not invent one to satisfy the first-minute script. Build completion remains unproven until verified slices and hands-on review.
+
+## Organizer Ruling — Data Boundary Revision
+
+Rahul supplied this ruling and then directed: “i want you just change the build as per the permissions we have now !!” No new learner answers are invented. Existing product decisions remain except where this ruling supersedes them.
+
+> I may collect the learn-ai.devpost.com gallery on my own machine (slow requests, robots.txt honoured, anonymised cards in the demo). I must NOT commit the collected titles and taglines to the public repo. They belong to the other entrants. If the project needs sample data, use a small made-up set, and the README says how to fetch the real one.
+
+> The installable companion skill is fine. The repo must still contain the scope.md, prd.md and spec.md the Skill Pack generated.
+
+> Until I say they said yes, the deployed demo uses fixtures only.
+
+### Data Boundary Implementation
+
+Implements `prd.md > Organizer Ruling — Data Boundary Revision`. `.darkspace-local/` holds real corpora, raw runs, SQLite caches, per-project matches and local recording bundles. `data/fixtures/` and `configs/fixture.yaml` define the made-up public pipeline. Export mode is explicit: fixture may enter `web/static/data/`; local mode may write only under `.darkspace-local/bundles/`. The public build refuses a local bundle.
+
+`darkspace corpus fetch` fetches only the permitted gallery on this machine, uses a shared local request lock, waits at least three seconds between HTTP requests including redirects, checks robots before gallery access, and retains local provenance and counted failures. It does not upload corpus text to hosted models.
+
+A staged/tracked-file guard blocks real-data paths, caches, archives, unreviewed media, entrant project URLs and known gallery wording fingerprints. A separate full-object history scan runs before the first push. Existing measured real results are preserved; a changed backtest aggregate is a stop condition. Archived protocol bytes retain the identity of older runs; revising data handling does not retroactively refreeze an old experiment.

@@ -84,3 +84,47 @@ Build small working slices, verify each, and save a commit. The unique kernel ar
 - October 26: Rahul explicitly delegated finding and proceeding with the strongest technical approach. Saved the chosen spec and order under that authorization. Original product requirements remain in scope/PRD; human labels, scientific stop rules and final hands-on review are not waived.
 - Slice 1 verified and committed as `0395b68`: 10/10 Node tests passed, strict TypeScript passed, fixture hand-off generated with exact words and explicit synthetic provenance. Node's native TypeScript loader required erasable syntax; enabled that check. The installed Skill Pack has an existing trailing blank line in its checklist template; left it unchanged as required, and scoped whitespace verification to project-authored files.
 - Slice 2 is in progress. Public sampling and cache/access gates passed 7 Python tests, ruff and strict mypy; frozen before real generation in commit `206f9a5`. Colab supplied a T4 and all four pinned model digests were verified. The notebook's Python 3.13 kernel required an isolated uv Python 3.12 process; protocol source was unchanged. The shared embedding implementation reproduced eight canonical probe vectors exactly on this host, passed input/token/integrity/close checks, and uses 45,881,134 bytes of model/runtime assets. Real forecast export, clustering/defaults and human validation remain unfinished.
+
+## Organizer Ruling — Ordered Migration
+
+This user-authorized migration is the active build order before resuming the remaining original slices. Rahul directed applying the already-stated permissions without a repeated interview. Earlier unchecked boxes are retained honestly; they are not silently marked complete. Scope, PRD and spec carry the exact supplied ruling and its revision basis.
+
+- [ ] **6. Remove gallery material from publication paths and install a safety gate**
+  Becomes usable: The source tree and Git history exclude the real development corpus; staged/tracked checks block recurrence.
+  Why now: Data handling must be safe before another bundle or commit.
+  PRD ref: `prd.md > Organizer Ruling — Data Boundary Revision`.
+  Spec ref: `spec.md > Data Boundary Implementation`.
+  Build: Audit, local quarantine, announced history cleanup, ignore rules, nonverbatim fingerprints and pre-commit/history checks.
+  Verify (mechanical): Full Git object scan, isolated staging rejection tests, strict types/lint and original artifact hashes unchanged.
+  Learner check: Inspect the audit and exact commit mapping; no entrant wording is copied into the report.
+  Commit: `fix: keep gallery material out of source and history`
+
+- [ ] **7. Build separate fixture and local recording exports**
+  Becomes usable: The public app and tests consume made-up gallery/forecasts labelled sample data; local recording output stays ignored.
+  Why now: Public behavior must obey the ruling before real-data collection tools are exposed.
+  PRD ref: `prd.md > Organizer Ruling — Data Boundary Revision`, `Backtest Reveal`.
+  Spec ref: `spec.md > Data Boundary Implementation`.
+  Build: `data/fixtures/`, `configs/fixture.yaml`, deterministic fixture pipeline, explicit export modes and aggregate-only summary. Preserve actual run bytes.
+  Verify (mechanical): Fixture run, byte-identical repeat, public/local export rejection tests, core/web checks and build.
+  Learner check: Every public card says sample data; the local recording build identifies its different provenance.
+  Commit: `feat: separate fixture demo and local recording bundles`
+
+- [ ] **8. Fetch the permitted corpus locally with provenance**
+  Becomes usable: `darkspace corpus fetch` collects the permitted gallery locally, respecting robots and the minimum request interval.
+  Why now: A safe local destination and export boundary exist first.
+  PRD ref: `prd.md > Organizer Ruling — Data Boundary Revision`.
+  Spec ref: `spec.md > Data Boundary Implementation`.
+  Build: Restricted host/redirect handling, rate limiter, robots check, pagination, provenance and counted failures. README reproduction instructions.
+  Verify (mechanical): Deterministic transport tests for robots denial, redirects, interval, parse failures, duplicates and local path boundaries; no live entrant collection is required for these tests.
+  Learner check: Follow the documented local command; collected wording never appears in Git or the public build.
+  Commit: `feat: add local-only authorized gallery fetch`
+
+- [ ] **9. Verify the full fixture journey and publication boundary**
+  Becomes usable: A checked public fixture build, preserved local recording route, CI and refreshed app map.
+  Why now: Completes the migration using actual mechanical and browser evidence.
+  PRD ref: `prd.md > Acceptance Criteria`, `Organizer Ruling — Data Boundary Revision`.
+  Spec ref: `spec.md > Verification and Build Order`, `Data Boundary Implementation`.
+  Build: Fixture CI, smoke checks, final safety/history scan and truthful documentation. Companion implementation remains unchanged.
+  Verify (mechanical): Python/core/web checks, production build, Playwright smoke through Cua, desktop/phone screenshots, companion protected-path tests and pre-push scan.
+  Learner check: Inspect sample labels and the downloaded hand-off; no real backtest accuracy is implied.
+  Commit: `test: verify fixture-only demo and local data boundary`

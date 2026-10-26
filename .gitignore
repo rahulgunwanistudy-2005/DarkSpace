@@ -14,3 +14,21 @@ web/.svelte-kit/
 web/build/
 packages/core/dist/
 /darkspace-output/
+web/static/models/
+
+# Organizer data boundary: all real corpus/run material stays local.
+/.darkspace-local/
+/data/corpora/
+/data/raw/
+/data/cache/
+/data/runs/*
+!/data/runs/README.md
+!/data/runs/fixture-*/
+**/*.sqlite
+**/*.sqlite3
+**/*.sqlite-wal
+**/*.sqlite-shm
+/devpost/research/screenshots/
+/videos/
+/recordings/
+/local-bundle/
